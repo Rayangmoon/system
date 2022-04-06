@@ -79,73 +79,61 @@
         console.log(key, keyPath);
       },
       ToHome(){
-        console.log('...')
         this.$router.push({
           name:'home',
         })
       },
       ToSensorMain(){
-        console.log('...')
         this.$router.push({
           name:'sensor_main',
         })
       },
       ToSensorData(){
-        console.log('...')
         this.$router.push({
           name:'sensor_data_device',
         })
       },
       ToEquipAccount(){
-        console.log('...')
         this.$router.push({
           name:'equip_index',
         })
       },
       ToEquipMaintain(){
-        console.log('...')
         this.$router.push({
           name:'equip_maintain_index',
         })
       },
       ToEquipAnalysis(){
-        console.log('...')
         this.$router.push({
           name:'equip_analysis_index',
         })
       },
       ToEnergyElectricity(){
-        console.log('...')
         this.$router.push({
           name:'energy_elec_index',
         })
       },
       ToEnergyTem_hum(){
-        console.log('...')
         this.$router.push({
           name:'energy_tem_hum_index',
         })
       },
       ToEnergyCustomer(){
-        console.log('...')
         this.$router.push({
           name:'energy_customer_index',
         })
       },
       ToEnergyConsumption(){
-        console.log('...')
         this.$router.push({
           name:'energy_consumption_index',
         })
       },
       ToEnergyAnalysis(){
-        console.log('...')
         this.$router.push({
           name:'energy_analysis_index',
         })
       },
       ToEnergyDevice(){
-        console.log('...')
         this.$router.push({
           name:'energy_device_index',
         })

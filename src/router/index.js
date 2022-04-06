@@ -4,12 +4,9 @@ import VueRouter from 'vue-router'
 import Home from 'home/index'
 
 import SensorDataDevice from 'sensor/data/Device'
-import SensorDataLog from 'sensor/data/Log'
 import SensorMain from 'sensor/main/index'
 
 import EquipAccount from 'equipment/account/index'
-import EquipAccountSpare from 'equipment/account/Spare'
-import EquipAccountStatus from 'equipment/account/Status'
 import Analysis from 'equipment/analysis/index'
 import Maintain from 'equipment/maintain/index'
 
@@ -54,11 +51,6 @@ const routes =[
                                 path:'device',
                                 component:SensorDataDevice
                             },
-                            {
-                                name:'sensor_data_log',
-                                path:'log',
-                                component:SensorDataLog
-                            },
                         ]
                     },
         
@@ -79,16 +71,6 @@ const routes =[
                                 name:'equip_index',
                                 path:'index',
                                 component:EquipAccount
-                            },
-                            {
-                                name:'equip_spare',
-                                path:'spare',
-                                component:EquipAccountSpare
-                            },
-                            {
-                                name:'equip_status',
-                                path:'status',
-                                component:EquipAccountStatus
                             },
                         ]
                     },

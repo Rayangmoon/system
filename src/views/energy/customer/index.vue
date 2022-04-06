@@ -1,5 +1,10 @@
 <template>
-  <h1>客流数据管理主页</h1>
+  <div>
+    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item>能源模块</el-breadcrumb-item>
+      <el-breadcrumb-item>客流数据</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
 </template>
 
 <script>

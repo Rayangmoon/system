@@ -1,7 +1,10 @@
 
 <template>
   <div>
-    <bread-crumb></bread-crumb>
+    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item> </el-breadcrumb-item>
+    </el-breadcrumb>
     <div class="demo-image">
       <div class="block" v-for="fit in fits" :key="fit">
         <el-image
@@ -36,13 +39,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .block{
   margin-top: 20px;
   box-shadow: 4px 2px 10px rgb(173, 168, 168);
 }
 .charts{
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
   justify-content: space-evenly;
 }
