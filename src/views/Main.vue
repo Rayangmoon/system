@@ -11,7 +11,11 @@
                 <el-main>
                     <router-view></router-view>
                 </el-main>
+<!--<<<<<<< HEAD-->
                 <el-footer></el-footer>
+<!--=======-->
+                <!-- <el-footer></el-footer> -->
+<!--&gt;>>>>>> 002fbdbd7b10908356202683d84269ca86af08d6-->
             </el-container>
 
     </el-container>

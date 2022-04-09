@@ -1,5 +1,6 @@
 <template>
   <div>
+<!--<<<<<<< HEAD-->
     <!--  面包屑导航-->
     <el-breadcrumb class="bread">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -58,6 +59,12 @@
         </el-table-column>
       </el-table>
     </el-card>
+<!--=======-->
+<!--    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">-->
+<!--      <el-breadcrumb-item>能源模块</el-breadcrumb-item>-->
+<!--      <el-breadcrumb-item>电表数据</el-breadcrumb-item>-->
+<!--    </el-breadcrumb>-->
+<!--&gt;>>>>>> 002fbdbd7b10908356202683d84269ca86af08d6-->
   </div>
 </template>
 

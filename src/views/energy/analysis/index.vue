@@ -1,5 +1,6 @@
 <template>
   <div>
+<!--<<<<<<< HEAD-->
   <div>
     <!--  面包屑导航-->
     <el-breadcrumb class="bread">
@@ -19,6 +20,13 @@
         </div>
       </div>
   </div>
+<!--=======-->
+<!--    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">-->
+<!--      <el-breadcrumb-item>能源模块</el-breadcrumb-item>-->
+<!--      <el-breadcrumb-item>统计分析</el-breadcrumb-item>-->
+<!--    </el-breadcrumb>-->
+<!--  </div>-->
+<!--&gt;>>>>>> 002fbdbd7b10908356202683d84269ca86af08d6-->
 </template>
 
 <script>

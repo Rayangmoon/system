@@ -1,6 +1,11 @@
 
 <template>
-  <h1>统计分析主页</h1>
+  <div>
+    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item>设备全生命周期</el-breadcrumb-item>
+      <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
 </template>
 
 <script>

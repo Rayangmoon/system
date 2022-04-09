@@ -1,6 +1,7 @@
 import Main from '../views/Main.vue'
 <template>
   <div>
+<!--<<<<<<< HEAD-->
     <bread-crumb></bread-crumb>
     <div>
     <baidu-map class="map" center="上海" zoom="10" @ready="handler">
@@ -15,6 +16,21 @@ import Main from '../views/Main.vue'
         <bm-label content="设备" :offset="{width: -2, height: 30}"/>
       </bm-marker>
     </baidu-map>
+<!--=======-->
+<!--    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">-->
+<!--        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>-->
+<!--        <el-breadcrumb-item> </el-breadcrumb-item>-->
+<!--    </el-breadcrumb>-->
+<!--    <div class="demo-image">-->
+<!--      <div class="block" v-for="fit in fits" :key="fit">-->
+<!--        <el-image-->
+<!--          style="width: auto; height: auto"-->
+<!--          :src="url"-->
+<!--          :fit="fit">-->
+
+<!--        </el-image>-->
+<!--      </div>-->
+<!--&gt;>>>>>> 002fbdbd7b10908356202683d84269ca86af08d6-->
     </div>
 <!--    <div class="demo-image">-->
 <!--      <div class="block" v-for="fit in fits" :key="fit">-->
@@ -77,13 +93,21 @@ export default {
 }
 </script>
 
+<<<<<<< HEAD
 <style>
 /*.block{*/
 /*  margin-top: 20px;*/
 /*  box-shadow: 4px 2px 10px rgb(173, 168, 168);*/
 /*}*/
-.charts{
+=======
+<style scoped>
+.block{
   margin-top: 20px;
+  box-shadow: 4px 2px 10px rgb(173, 168, 168);
+}
+>>>>>>> 002fbdbd7b10908356202683d84269ca86af08d6
+.charts{
+  margin-top: 30px;
   display: flex;
   justify-content: space-evenly;
 }
