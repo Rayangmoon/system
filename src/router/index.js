@@ -6,10 +6,12 @@ import Home from 'home/index'
 import SensorDataDevice from 'sensor/data/Device'
 import SensorMain from 'sensor/main/index'
 
+import EquipMain from 'equipment/main/index'
 import EquipAccount from 'equipment/account/index'
 import Analysis from 'equipment/analysis/index'
 import Maintain from 'equipment/maintain/index'
 
+import EnergyMain from 'energy/main/index'
 import EnergyAnalysis from 'energy/analysis/index'
 import EnergyConsumption from 'energy/consumption/index'
 import EnergyCustomer from 'energy/customer/index'
@@ -63,6 +65,11 @@ const routes =[
                 component:{render: (e) => e("router-view")},
                 children:[
                     {
+                        name:'equip_main',
+                        path:'main',
+                        component:EquipMain,
+                    },
+                    {
                         name:'equip_account',
                         path:'account',
                         component:{render: (e) => e("router-view")},
@@ -106,6 +113,11 @@ const routes =[
                 path:'/energy',
                 component:{render: (e) => e("router-view")},
                 children:[
+                    {
+                        name:'energy_main',
+                        path:'main',
+                        component:EnergyMain,
+                    },
                     {
                         name:'energy_elec',
                         path:'electricity',
