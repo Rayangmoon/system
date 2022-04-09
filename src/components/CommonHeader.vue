@@ -11,7 +11,7 @@
           </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item divided>退出</el-dropdown-item>
+              <el-dropdown-item divided><a href="/">退出</a></el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -38,8 +38,8 @@ header{
   height: 100%;
   justify-content: space-between;
   align-items: center;
-  
-}  
+
+}
 .l-content{
   display: flex;
   align-items: center;

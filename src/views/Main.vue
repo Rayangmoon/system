@@ -1,6 +1,6 @@
 <template>
     <el-container style="height:100%">
-        
+
             <el-aside width="auto">
                 <common-aside></common-aside>
             </el-aside>
@@ -11,9 +11,9 @@
                 <el-main>
                     <router-view></router-view>
                 </el-main>
-                <el-footer>Footer</el-footer>
+                <el-footer></el-footer>
             </el-container>
-        
+
     </el-container>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     },
     data() {
         return {
-            
+
         }
     },
 }

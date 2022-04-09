@@ -1,12 +1,12 @@
 <template>
-<el-menu default-active="1-4-1" class="el-menu-vertical-demo" 
+<el-menu default-active="1-4-1" class="el-menu-vertical-demo"
         @open="handleOpen" @close="handleClose" :collapse="isCollapse"
-        background-color='#545c64' text-color='#fff' 
+        background-color='#545c64' text-color='#fff'
         active-text-color='#ffd04b'>
   <h3>界面看板</h3>
     <el-menu-item @click="ToHome" index="1">
         <i class="el-icon-aim"></i>
-        <span slot="title">首页</span> 
+        <span slot="title">首页</span>
     </el-menu-item>
     <el-submenu index="2">
         <template slot="title">
@@ -16,9 +16,9 @@
         <el-menu-item-group>
           <el-menu-item @click="ToSensorMain" index="2-1">主界面</el-menu-item>
           <el-menu-item @click="ToSensorData" index="2-2">数据管理</el-menu-item>
-        </el-menu-item-group>   
+        </el-menu-item-group>
     </el-submenu>
-    
+
     <el-submenu index="3">
         <template slot="title">
           <i class="el-icon-setting"></i>
@@ -28,7 +28,7 @@
           <el-menu-item @click="ToEquipAccount" index="3-1">设备台账</el-menu-item>
           <el-menu-item @click="ToEquipMaintain" index="3-2">登记与维修</el-menu-item>
           <el-menu-item @click="ToEquipAnalysis" index="3-3">统计分析</el-menu-item>
-        </el-menu-item-group>   
+        </el-menu-item-group>
     </el-submenu>
 
     <el-submenu index="4">
@@ -37,13 +37,14 @@
           <span>能源模块</span>
         </template>
         <el-menu-item-group>
+            <el-menu-item @click="ToEnergyAnalysis" index="4-5">主页面</el-menu-item>
             <el-menu-item @click="ToEnergyElectricity" index="4-1">电表数据</el-menu-item>
             <el-menu-item @click="ToEnergyTem_hum" index="4-2">温湿度数据</el-menu-item>
             <el-menu-item @click="ToEnergyCustomer" index="4-3">客流数据</el-menu-item>
             <el-menu-item @click="ToEnergyConsumption" index="4-4">能耗数据</el-menu-item>
-            <el-menu-item @click="ToEnergyAnalysis" index="4-5">统计分析</el-menu-item>
+<!--            <el-menu-item @click="ToEnergyAnalysis" index="4-5">统计分析</el-menu-item>-->
             <el-menu-item @click="ToEnergyDevice" index="4-6">设备管理</el-menu-item>
-        </el-menu-item-group>   
+        </el-menu-item-group>
     </el-submenu>
 
 </el-menu>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Login from '../views/Login/LoginUsers.vue'
 
 import Home from 'home/index'
 
@@ -24,7 +25,12 @@ Vue.use(VueRouter)
 
 const routes =[
     {
-        path:'/',
+        path: '/',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path:'/Main',
         name:'Main',
         component: () => import('../views/Main.vue'),
         children:[
@@ -61,7 +67,7 @@ const routes =[
                             },
                         ]
                     },
-        
+
                 ]
             },
             // 设备模块
@@ -200,8 +206,8 @@ const routes =[
             }
         ]
     },
-    
-    
+
+
 ]
 const router = new VueRouter({
     mode:'history',
