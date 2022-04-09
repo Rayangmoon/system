@@ -11,6 +11,9 @@ import Main from '../views/Main.vue'
       <bm-marker :position="{lng:121.45,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToSensorMain">
         <bm-label content="空气传感器" :offset="{width: -25, height: 30}"/>
       </bm-marker>
+      <bm-marker :position="{lng:121.65,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEquipAccount">
+        <bm-label content="设备" :offset="{width: -2, height: 30}"/>
+      </bm-marker>
     </baidu-map>
     </div>
 <!--    <div class="demo-image">-->
@@ -62,6 +65,12 @@ export default {
       console.log('...')
       this.$router.push({
         name:'sensor_main',
+      })
+    },
+    ToEquipAccount(){
+      console.log('...')
+      this.$router.push({
+        name:'equip_index',
       })
     },
   }
