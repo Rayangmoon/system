@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Login from '../views/Login/LoginUsers.vue'
 
 import Home from 'home/index'
 
@@ -12,7 +13,6 @@ import Analysis from 'equipment/analysis/index'
 import Maintain from 'equipment/maintain/index'
 
 import EnergyMain from 'energy/main/index'
-import EnergyAnalysis from 'energy/analysis/index'
 import EnergyConsumption from 'energy/consumption/index'
 import EnergyCustomer from 'energy/customer/index'
 import EnergyDevice from 'energy/device/index'
@@ -23,7 +23,12 @@ Vue.use(VueRouter)
 
 const routes =[
     {
-        path:'/',
+        path: '/',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path:'/Main',
         name:'Main',
         component: () => import('../views/Main.vue'),
         children:[
@@ -55,7 +60,7 @@ const routes =[
                             },
                         ]
                     },
-        
+
                 ]
             },
             // 设备模块
@@ -167,18 +172,6 @@ const routes =[
                         ]
                     },
                     {
-                        name:'energy_analysis',
-                        path:'analysis',
-                        component:{render: (e) => e("router-view")},
-                        children:[
-                            {
-                                name:'energy_analysis_index',
-                                path:'index',
-                                component:EnergyAnalysis
-                            },
-                        ]
-                    },
-                    {
                         name:'energy_device',
                         path:'device',
                         component:{render: (e) => e("router-view")},
@@ -194,8 +187,8 @@ const routes =[
             }
         ]
     },
-    
-    
+
+
 ]
 const router = new VueRouter({
     mode:'history',

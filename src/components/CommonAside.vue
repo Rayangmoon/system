@@ -1,12 +1,12 @@
 <template>
-<el-menu default-active="1-4-1" class="el-menu-vertical-demo" 
+<el-menu default-active="1-4-1" class="el-menu-vertical-demo"
         @open="handleOpen" @close="handleClose" :collapse="isCollapse"
-        background-color='#545c64' text-color='#fff' 
+        background-color='#545c64' text-color='#fff'
         active-text-color='#ffd04b'>
   <h3>界面看板</h3>
     <el-menu-item @click="ToHome" index="1">
         <i class="el-icon-aim"></i>
-        <span slot="title">首页</span> 
+        <span slot="title">首页</span>
     </el-menu-item>
     <el-submenu index="2">
         <template slot="title">
@@ -16,9 +16,9 @@
         <el-menu-item-group>
           <el-menu-item @click="ToSensorMain" index="2-1">主界面</el-menu-item>
           <el-menu-item @click="ToSensorData" index="2-2">数据管理</el-menu-item>
-        </el-menu-item-group>   
+        </el-menu-item-group>
     </el-submenu>
-    
+
     <el-submenu index="3">
         <template slot="title">
           <i class="el-icon-setting"></i>
@@ -43,8 +43,7 @@
             <el-menu-item @click="ToEnergyTem_hum" index="4-3">温湿度数据</el-menu-item>
             <el-menu-item @click="ToEnergyCustomer" index="4-4">客流数据</el-menu-item>
             <el-menu-item @click="ToEnergyConsumption" index="4-5">能耗数据</el-menu-item>
-            <el-menu-item @click="ToEnergyAnalysis" index="4-6">统计分析</el-menu-item>
-            <el-menu-item @click="ToEnergyDevice" index="4-7">设备管理</el-menu-item>
+            <el-menu-item @click="ToEnergyDevice" index="4-6">设备管理</el-menu-item>
         </el-menu-item-group>   
     </el-submenu>
 
@@ -138,11 +137,6 @@
       ToEnergyConsumption(){
         this.$router.push({
           name:'energy_consumption_index',
-        })
-      },
-      ToEnergyAnalysis(){
-        this.$router.push({
-          name:'energy_analysis_index',
         })
       },
       ToEnergyDevice(){

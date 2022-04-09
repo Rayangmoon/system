@@ -1,19 +1,22 @@
-
 <template>
   <div>
     <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item> </el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="demo-image">
-      <div class="block" v-for="fit in fits" :key="fit">
-        <el-image
-          style="width: auto; height: auto"
-          :src="url"
-          :fit="fit">
-
-        </el-image>
-      </div>
+    <div>
+    <baidu-map class="map" center="上海" zoom="10" @ready="handler">
+      <bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"></bm-navigation>
+      <bm-marker :position="{lng:121.43,lat:31.29}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyElectricity">
+        <bm-label content="电能传感器" :offset="{width: -25, height: 30}"/>
+      </bm-marker>
+      <bm-marker :position="{lng:121.45,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToSensorMain">
+        <bm-label content="空气传感器" :offset="{width: -25, height: 30}"/>
+      </bm-marker>
+      <bm-marker :position="{lng:121.65,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEquipMain">
+        <bm-label content="设备" :offset="{width: -2, height: 30}"/>
+      </bm-marker>
+    </baidu-map>
     </div>
     <div class="charts">
       <Chart1></Chart1>
@@ -24,18 +27,39 @@
 </template>
 
 <script>
-import BreadCrumb from '../../components/BreadCrumb.vue'
 import Chart1 from '../home/Chart1.vue'
 import Chart2 from '../home/Chart2.vue'
 
+
 export default {
-  components: { BreadCrumb,Chart1, Chart2},
+  components: {Chart1, Chart2},
   data() {
       return {
-        fits: ['scale-down'],
-        url: require('../../assets/images/平面图1.png')
       }
-    }
+
+    },
+  methods: {
+    handler ({BMap, map}) {
+      console.log(BMap, map)
+      // 鼠标缩放
+      map.enableScrollWheelZoom(true)
+    },
+    ToEnergyElectricity(){
+      this.$router.push({
+        name:'energy_elec_index',
+      })
+    },
+    ToSensorMain(){
+      this.$router.push({
+        name:'sensor_main',
+      })
+    },
+    ToEquipMain(){
+      this.$router.push({
+        name:'equip_main',
+      })
+    },
+  }
 }
 </script>
 
@@ -49,4 +73,10 @@ export default {
   display: flex;
   justify-content: space-evenly;
 }
+.map{
+  margin-top: 10px;
+  width:100%;
+  height:450px;
+}
+
 </style>
