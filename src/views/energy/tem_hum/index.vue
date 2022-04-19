@@ -3,7 +3,7 @@
     <!--  面包屑导航-->
     <el-breadcrumb class="bread">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>能源管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/energy/main' }">能源管理</el-breadcrumb-item>
       <el-breadcrumb-item>温湿度数据</el-breadcrumb-item>
     </el-breadcrumb>
     <!--    卡片-->

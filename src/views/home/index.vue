@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">
+    <el-breadcrumb class="bread">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item> </el-breadcrumb-item>
+        <el-breadcrumb-item></el-breadcrumb-item>
     </el-breadcrumb>
     <div>
     <baidu-map class="map" center="上海" zoom="10" @ready="handler">
@@ -64,6 +64,10 @@ export default {
 </script>
 
 <style scoped>
+.bread {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
 .block{
   margin-top: 20px;
   box-shadow: 4px 2px 10px rgb(173, 168, 168);
