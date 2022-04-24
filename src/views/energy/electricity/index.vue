@@ -11,8 +11,8 @@
       <!--    搜索-->
       <el-row>
         <el-col :span="7">
-          <el-input placeholder="请输入内容" class="input">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入内容" class="input" v-model="queryInfo.query" clearable>
+          <el-button slot="append" icon="el-icon-search" @click="tableData"></el-button>
         </el-input>
         </el-col>
         <el-col :span="7"></el-col>
@@ -57,47 +57,117 @@
             label="用电总数">
         </el-table-column>
       </el-table>
+<!--      分页-->
+      <el-pagination class="pagination"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[1, 2, 4, 10]"
+          :page-size="4"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="4">
+      </el-pagination>
+      <div id="main" style="width: 1200px;height:400px;" class="chart"></div>
     </el-card>
   </div>
 </template>
 
 <script>
+import * as echarts from 'echarts';
 export default {
   data() {
     return {
       tableData: [{
         1: '正向有功电能',
-        2: '8888',
+        2: '632',
         3: '',
         4:'2022-4-1',
-        5:'8888',
-        6:'88888',
+        5:'986',
+        6:'864',
       }, {
-        1: '正向有功电能',
-        2: '8888',
+        1: '反向有功电能',
+        2: '777',
         3: '',
         4:'2022-4-1',
-        5:'8888',
-        6:'88888',
+        5:'77',
+        6:'677',
       }, {
-        1: '正向有功电能',
-        2: '8888',
+        1: '正向无功电能',
+        2: '996',
         3: '',
         4:'2022-4-1',
-        5:'8888',
-        6:'88888',
+        5:'134',
+        6:'6452',
       }, {
-        1: '正向有功电能',
-        2: '8888',
+        1: '反向无功电能',
+        2: '777',
         3: '',
         4:'2022-4-1',
-        5:'8888',
-        6:'88888',
-      }]
+        5:'532',
+        6:'745',
+      }],
+      queryInfo:{
+        page: 1,
+      },
+      currentPage: 1,
     }
-  }
+  },
+  mounted(){
+    var myChart = echarts.init(document.getElementById('main'))
+    var option = {
+      legend: {
+        data: ['理论耗能曲线', '实际耗能曲线']
+      },
+      title: {
+        text: '电能数据折线图'
+      },
+      xAxis: {
+        data: ['2022-4-7', '2022-4-8', '2022-4-9', '2022-4-10', '2022-4-11']
+      },
+      yAxis: {},
+      series: [
+        {
+          name: '理论耗能曲线',
+          data: [10, 22, 28, 23, 19],
+          type: 'line',
+          areaStyle: {},
+          label: {
+            show: true }
+        },
+        {
+          name: '实际耗能曲线',
+          data: [25, 14, 23, 35, 10],
+          type: 'line',
+          areaStyle: {
+            color: '#ff0',
+            opacity: 0.5
+          },
+          label: {
+            show: true }
+        }
+      ]
+    };
+    myChart.setOption(option);
+  },
+  created(){
+    this.getdevice()
+  },
+  methods: {
+    handleSizeChange(newsize) {
+      console.log(`每页 ${newsize} 条`);
+    },
+    handleCurrentChange(newchang) {
+      console.log(`当前页: ${newchang}`);
+    },
+    async getdevice(){
+      // sessionStorage.setItem("token", 'bada88e8-2000-482b-a50b-48b2ea745304')
+      // this.$cookies.set("token", 'bada88e8-2000-482b-a50b-48b2ea745304', {expires: "7D"})
+      const {data:res} = await this.$axios.get('http://150.158.37.65:8081/user/aircondition', {params:this.queryInfo})
+      console.log(res)
+    }
+  },
 
-}
+  }
 </script>
 
 <style scoped>
@@ -110,5 +180,11 @@ export default {
 }
 .table{
   margin-top: 10px;
+}
+.pagination{
+  margin-top: 10px;
+}
+.chart{
+  margin-top: 40px;
 }
 </style>

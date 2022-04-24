@@ -6,6 +6,13 @@ import login from './login'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+
+    state: {
+    },
+
+    actions: {
+    },
+
     modules:{
         tab,login
     }

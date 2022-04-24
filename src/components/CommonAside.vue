@@ -37,14 +37,25 @@
           <span>能源模块</span>
         </template>
         <el-menu-item-group>
+<!--<<<<<<< HEAD-->
+<!--            <el-menu-item @click="ToEnergyAnalysis" index="4-1">主页面</el-menu-item>-->
+<!--=======-->
             <el-menu-item @click="ToEnergyMain" index="4-1">主界面</el-menu-item>
             <el-menu-item @click="ToEnergyElectricity" index="4-2">电表数据</el-menu-item>
             <el-menu-item @click="ToEnergyTem_hum" index="4-3">温湿度数据</el-menu-item>
             <el-menu-item @click="ToEnergyCustomer" index="4-4">客流数据</el-menu-item>
             <el-menu-item @click="ToEnergyConsumption" index="4-5">能耗数据</el-menu-item>
+<!--            <el-menu-item @click="ToEnergyAnalysis" index="4-5">统计分析</el-menu-item>-->
             <el-menu-item @click="ToEnergyDevice" index="4-6">设备管理</el-menu-item>
-        </el-menu-item-group>   
+          <el-menu-item @click="ToEnergyEditmain" index="4-7">编辑传感器</el-menu-item>
+          <el-menu-item @click="ToEnergyTest" index="4-8">测试</el-menu-item>
+        </el-menu-item-group>
     </el-submenu>
+
+  <el-menu-item @click="ToUser" index="5">
+    <i class="el-icon-user"></i>
+    <span slot="title">用户管理</span>
+  </el-menu-item>
 
 </el-menu>
 </template>
@@ -136,6 +147,21 @@
       ToEnergyDevice(){
         this.$router.push({
           name:'energy_device_index',
+        })
+      },
+      ToEnergyEditmain(){
+        this.$router.push({
+          name:'energy_edit_editmain',
+        })
+      },
+      ToEnergyTest(){
+        this.$router.push({
+          name:'energy_test_test',
+        })
+      },
+      ToUser(){
+        this.$router.push({
+          name:'User',
         })
       }
     },

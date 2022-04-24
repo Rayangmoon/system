@@ -7,7 +7,7 @@
     <div>
     <baidu-map class="map" center="上海" zoom="10" @ready="handler">
       <bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"></bm-navigation>
-      <bm-marker :position="{lng:121.43,lat:31.29}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyElectricity">
+      <bm-marker :position="{lng:121.43,lat:31.29}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyAnalysis">
         <bm-label content="电能传感器" :offset="{width: -25, height: 30}"/>
       </bm-marker>
       <bm-marker :position="{lng:121.45,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToSensorMain">
@@ -44,11 +44,13 @@ export default {
       // 鼠标缩放
       map.enableScrollWheelZoom(true)
     },
-    ToEnergyElectricity(){
-      this.$router.push({
-        name:'energy_elec_index',
-      })
-    },
+    // ToEnergyElectricity(){
+    //   console.log('...')
+    //   this.$router.push({
+    //     name:'energy_elec_index',
+    //   })
+    // },
+
     ToSensorMain(){
       this.$router.push({
         name:'sensor_main',
@@ -59,9 +61,18 @@ export default {
         name:'equip_main',
       })
     },
+    ToEnergyAnalysis(){
+      this.$router.push({
+        name:'energy_analysis_index',
+      })
+    },
   }
 }
 </script>
+
+
+
+
 
 <style scoped>
 .bread {

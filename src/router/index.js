@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login/LoginUsers.vue'
+import LoginMangers from '../views/Login/LoginMangers.vue'
+import User from '../views/UsersControl/user.vue'
 
 import Home from 'home/index'
 
@@ -18,6 +20,13 @@ import EnergyCustomer from 'energy/customer/index'
 import EnergyDevice from 'energy/device/index'
 import EnergyElectricity from 'energy/electricity/index'
 import EnergyTem_hum from 'energy/tem_hum/index'
+import EnergyEditmain from 'energy/edit/editmain'
+import EnergyTest from 'energy/test/test'
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.use(VueRouter)
 
@@ -28,6 +37,11 @@ const routes =[
         component: Login
     },
     {
+        path: '/LoginMangers',
+        name: 'LoginMangers',
+        component: LoginMangers
+    },
+    {
         path:'/Main',
         name:'Main',
         component: () => import('../views/Main.vue'),
@@ -36,6 +50,11 @@ const routes =[
                 name:'home',
                 path:'/home',
                 component:Home
+            },
+            {
+                name:'User',
+                path:'/user',
+                component:User
             },
             // 传感器模块
             {
@@ -169,6 +188,30 @@ const routes =[
                                 name:'energy_device_index',
                                 path:'index',
                                 component:EnergyDevice
+                            },
+                        ]
+                    },
+                    {
+                        name:'energy_edit',
+                        path:'edit',
+                        component:{render: (e) => e("router-view")},
+                        children:[
+                            {
+                                name:'energy_edit_editmain',
+                                path:'editmain',
+                                component:EnergyEditmain
+                            },
+                        ]
+                    },
+                    {
+                        name:'energy_test',
+                        path:'test',
+                        component:{render: (e) => e("router-view")},
+                        children:[
+                            {
+                                name:'energy_test_test',
+                                path:'test',
+                                component:EnergyTest
                             },
                         ]
                     },
