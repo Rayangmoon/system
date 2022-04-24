@@ -1,5 +1,9 @@
-import Main from '../views/Main.vue'
 <template>
+  <div>
+    <el-breadcrumb class="bread">
+      <el-breadcrumb-item :to="{ path: '/LoginMangers' }">测试登录</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">用户登录</el-breadcrumb-item>
+    </el-breadcrumb>
   <div class="common-layout">
     <el-container>
       <el-header>智慧建筑管理系统登录</el-header>
@@ -19,9 +23,11 @@ import Main from '../views/Main.vue'
       </el-main>
     </el-container>
   </div>
+  </div>
 </template>
 
 <script>
+import {encrypt} from '@/views/secret.js'
 export default {
   name: "LoginUsers",
   data () {
@@ -44,8 +50,9 @@ export default {
     }
     return {
       ruleForm: {
-        username: 'admin',
-        passwd: '123456'
+        username: 'administrator',
+        passwd: 'shanghaiuniversity',
+        // token: ''
       },
       rules: {
         username: [
@@ -59,19 +66,39 @@ export default {
   },
   methods: {
     submitForm (formName) {
+
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          // alert('submit!')
           // const _this =this
-          // this.$axios.post('http://150.158.37.65:8081/login', this.ruleForm).then((res)=>{
-          //   const token = res.headers['authorization']
-          //   _this.$store.commit('SET_TOKEN', token)
-          //   _this.$store.commit('SET_USERINFO', res.data.data)
-            // console.log("用户名，密码")
-            // console.log(this.ruleForm.username)
-            // console.log(this.ruleForm.passwd)
+          // this.$axios({
+          //   url: 'http://150.158.37.65:8081/login',
+          //   method: 'post',
+          //   data: {username:encrypt(this.ruleForm.username), passwd:encrypt(this.ruleForm.passwd)}, })
+          this.$axios.post('http://150.158.37.65:8081/login',{username:encrypt(this.ruleForm.username),
+            passwd:encrypt(this.ruleForm.passwd)}).then((res)=>{
+            if (res.data.code !== 200) {
+              return this.$message.error('用户名或密码错误')
+            } else {
+              this.$message.success('登录成功')
+            }
+            // this.$cookies.set("token", '05e6bf42-0011-417e-83c8-7b138aa730f6', {expires: "7D"})
+
+            // let cookie = res.headers.Set-Cookie.token
+            // console.log(cookie)
+            // sessionStorage.setItem("token", 'c62d8b97-5825-4beb-b782-bee1221f643e')
+            // const token = res.headers["set-cookie"]
+            // const token = res.headers['authorization']
+            // _this.$store.commit('SET_TOKEN', token)
+            // _this.$store.commit('SET_USERINFO', res.data.data)
+            console.log(res)
+            console.log("用户名，密码")
+            console.log(this.ruleForm.username)
+            console.log(this.ruleForm.passwd)
             this.$router.push('/Main')
-          // })
+          })
+              // this.$axios.post('http://150.158.37.65:8082/login', this.ruleForm){username:encrypt(this.ruleForm.username),
+          // passwd:encrypt(this.ruleForm.passwd)}
         } else {
           //return this.$message.error('用户名或密码错误')
           console.log('error submit!!')

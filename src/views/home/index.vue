@@ -6,7 +6,7 @@ import Main from '../views/Main.vue'
     <div>
     <baidu-map class="map" center="上海" zoom="10" @ready="handler">
       <bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"></bm-navigation>
-      <bm-marker :position="{lng:121.43,lat:31.29}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyElectricity">
+      <bm-marker :position="{lng:121.43,lat:31.29}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyAnalysis">
         <bm-label content="电能传感器" :offset="{width: -25, height: 30}"/>
       </bm-marker>
       <bm-marker :position="{lng:121.45,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToSensorMain">
@@ -71,12 +71,12 @@ export default {
       // 鼠标缩放
       map.enableScrollWheelZoom(true)
     },
-    ToEnergyElectricity(){
-      console.log('...')
-      this.$router.push({
-        name:'energy_elec_index',
-      })
-    },
+    // ToEnergyElectricity(){
+    //   console.log('...')
+    //   this.$router.push({
+    //     name:'energy_elec_index',
+    //   })
+    // },
     ToSensorMain(){
       console.log('...')
       this.$router.push({
@@ -89,23 +89,22 @@ export default {
         name:'equip_index',
       })
     },
+    ToEnergyAnalysis(){
+      this.$router.push({
+        name:'energy_analysis_index',
+      })
+    },
   }
 }
 </script>
 
-<<<<<<< HEAD
+
 <style>
 /*.block{*/
 /*  margin-top: 20px;*/
 /*  box-shadow: 4px 2px 10px rgb(173, 168, 168);*/
 /*}*/
-=======
-<style scoped>
-.block{
-  margin-top: 20px;
-  box-shadow: 4px 2px 10px rgb(173, 168, 168);
-}
->>>>>>> 002fbdbd7b10908356202683d84269ca86af08d6
+
 .charts{
   margin-top: 30px;
   display: flex;
