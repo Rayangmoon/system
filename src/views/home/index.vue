@@ -1,8 +1,9 @@
-import Main from '../views/Main.vue'
 <template>
   <div>
-<!--<<<<<<< HEAD-->
-    <bread-crumb></bread-crumb>
+    <el-breadcrumb class="bread">
+        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item></el-breadcrumb-item>
+    </el-breadcrumb>
     <div>
     <baidu-map class="map" center="上海" zoom="10" @ready="handler">
       <bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"></bm-navigation>
@@ -12,36 +13,11 @@ import Main from '../views/Main.vue'
       <bm-marker :position="{lng:121.45,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToSensorMain">
         <bm-label content="空气传感器" :offset="{width: -25, height: 30}"/>
       </bm-marker>
-      <bm-marker :position="{lng:121.65,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEquipAccount">
+      <bm-marker :position="{lng:121.65,lat:31.24}" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEquipMain">
         <bm-label content="设备" :offset="{width: -2, height: 30}"/>
       </bm-marker>
     </baidu-map>
-<!--=======-->
-<!--    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">-->
-<!--        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>-->
-<!--        <el-breadcrumb-item> </el-breadcrumb-item>-->
-<!--    </el-breadcrumb>-->
-<!--    <div class="demo-image">-->
-<!--      <div class="block" v-for="fit in fits" :key="fit">-->
-<!--        <el-image-->
-<!--          style="width: auto; height: auto"-->
-<!--          :src="url"-->
-<!--          :fit="fit">-->
-
-<!--        </el-image>-->
-<!--      </div>-->
-<!--&gt;>>>>>> 002fbdbd7b10908356202683d84269ca86af08d6-->
     </div>
-<!--    <div class="demo-image">-->
-<!--      <div class="block" v-for="fit in fits" :key="fit">-->
-<!--        <el-image-->
-<!--          style="width: auto; height: auto"-->
-<!--          :src="url"-->
-<!--          :fit="fit">-->
-
-<!--        </el-image>-->
-<!--      </div>-->
-<!--    </div>-->
     <div class="charts">
       <Chart1></Chart1>
       <Chart2></Chart2>
@@ -51,17 +27,14 @@ import Main from '../views/Main.vue'
 </template>
 
 <script>
-import BreadCrumb from '../../components/BreadCrumb.vue'
 import Chart1 from '../home/Chart1.vue'
 import Chart2 from '../home/Chart2.vue'
 
 
 export default {
-  components: { BreadCrumb,Chart1, Chart2},
+  components: {Chart1, Chart2},
   data() {
       return {
-        // fits: ['scale-down'],
-        // url: require('../../assets/images/平面图1.png')
       }
 
     },
@@ -77,16 +50,15 @@ export default {
     //     name:'energy_elec_index',
     //   })
     // },
+
     ToSensorMain(){
-      console.log('...')
       this.$router.push({
         name:'sensor_main',
       })
     },
-    ToEquipAccount(){
-      console.log('...')
+    ToEquipMain(){
       this.$router.push({
-        name:'equip_index',
+        name:'equip_main',
       })
     },
     ToEnergyAnalysis(){
@@ -99,12 +71,18 @@ export default {
 </script>
 
 
-<style>
-/*.block{*/
-/*  margin-top: 20px;*/
-/*  box-shadow: 4px 2px 10px rgb(173, 168, 168);*/
-/*}*/
 
+
+
+<style scoped>
+.bread {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.block{
+  margin-top: 20px;
+  box-shadow: 4px 2px 10px rgb(173, 168, 168);
+}
 .charts{
   margin-top: 30px;
   display: flex;

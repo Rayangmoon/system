@@ -1,8 +1,9 @@
 
 <template>
   <div>
-    <el-breadcrumb class="bread" separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item>传感器模块</el-breadcrumb-item>
+    <el-breadcrumb class="bread">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/sensor/main' }">传感器模块</el-breadcrumb-item>
       <el-breadcrumb-item>数据管理</el-breadcrumb-item>
     </el-breadcrumb>
     <el-tabs type="border-card">
@@ -25,8 +26,9 @@ export default {
 }
 </script>
 
-<style>
-.bread{
-  margin-bottom: 20px;
+<style scoped>
+.bread {
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 </style>

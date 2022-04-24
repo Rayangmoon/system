@@ -25,9 +25,10 @@
           <span>设备全生命周期</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item @click="ToEquipAccount" index="3-1">设备台账</el-menu-item>
-          <el-menu-item @click="ToEquipMaintain" index="3-2">登记与维修</el-menu-item>
-          <el-menu-item @click="ToEquipAnalysis" index="3-3">统计分析</el-menu-item>
+          <el-menu-item @click="ToEquipMain" index="3-1">主界面</el-menu-item>
+          <el-menu-item @click="ToEquipAccount" index="3-2">设备台账</el-menu-item>
+          <el-menu-item @click="ToEquipMaintain" index="3-3">维修与保养</el-menu-item>
+          <el-menu-item @click="ToEquipAnalysis" index="3-4">统计分析</el-menu-item>
         </el-menu-item-group>
     </el-submenu>
 
@@ -37,7 +38,10 @@
           <span>能源模块</span>
         </template>
         <el-menu-item-group>
-            <el-menu-item @click="ToEnergyAnalysis" index="4-1">主页面</el-menu-item>
+<!--<<<<<<< HEAD-->
+<!--            <el-menu-item @click="ToEnergyAnalysis" index="4-1">主页面</el-menu-item>-->
+<!--=======-->
+            <el-menu-item @click="ToEnergyMain" index="4-1">主界面</el-menu-item>
             <el-menu-item @click="ToEnergyElectricity" index="4-2">电表数据</el-menu-item>
             <el-menu-item @click="ToEnergyTem_hum" index="4-3">温湿度数据</el-menu-item>
             <el-menu-item @click="ToEnergyCustomer" index="4-4">客流数据</el-menu-item>
@@ -101,6 +105,11 @@
           name:'sensor_data_device',
         })
       },
+      ToEquipMain(){
+        this.$router.push({
+          name:'equip_main',
+        })
+      },
       ToEquipAccount(){
         this.$router.push({
           name:'equip_index',
@@ -114,6 +123,11 @@
       ToEquipAnalysis(){
         this.$router.push({
           name:'equip_analysis_index',
+        })
+      },
+      ToEnergyMain(){
+        this.$router.push({
+          name:'energy_main',
         })
       },
       ToEnergyElectricity(){
@@ -134,11 +148,6 @@
       ToEnergyConsumption(){
         this.$router.push({
           name:'energy_consumption_index',
-        })
-      },
-      ToEnergyAnalysis(){
-        this.$router.push({
-          name:'energy_analysis_index',
         })
       },
       ToEnergyDevice(){
