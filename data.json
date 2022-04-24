@@ -1,0 +1,19 @@
+{
+  "spare": [
+    {
+      "id": 1,
+      "name": "风管温度传感器",
+      "type": "传感器"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

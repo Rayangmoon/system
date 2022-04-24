@@ -98,18 +98,7 @@ const routes =[
                             },
                         ]
                     },
-                    {
-                        name:'equip_analysis',
-                        path:'analysis',
-                        component:{render: (e) => e("router-view")},
-                        children:[
-                            {
-                                name:'equip_analysis_index',
-                                path:'index',
-                                component:Analysis
-                            },
-                        ]
-                    },
+                    
                 ]
             },
             // 能源模块

@@ -10,7 +10,7 @@ import "./axios"
 import BaiduMap from 'vue-baidu-map'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.use(ElementUI , axios)
 Vue.prototype.$axios = axios
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -27,5 +27,6 @@ Vue.use(BaiduMap, {
 new Vue({
   store,
   router,
+  axios,
   render: h => h(App),
 }).$mount('#app')

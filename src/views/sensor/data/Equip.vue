@@ -35,7 +35,16 @@
         <el-button type="text" size="small">编辑</el-button>
       </template>
     </el-table-column>
+    
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage3"
+      :page-size="100"
+      layout="prev, pager, next, jumper"
+      :total="1000">
+    </el-pagination>
     <div class="charts">
       <Chart1></Chart1>
     </div>
@@ -47,13 +56,27 @@ import Chart1 from '../data/Chart1.vue'
 export default {
   name:'Equip',
   components:{Chart1},
+  // mounted() {
+  //   this.axios.get('http://150.158.37.65/user/aircondition',{
+  //           'page': 1
+  //       }).then((response) => {
+  //     console.log('there',response.data)
+  //   })
+  // },
   methods: {
     handleClick(row) {
       console.log(row);
+    },
+    handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   },
   data() {
     return {
+      currentPage3: 5,
       tableData: [
         {
           name:'CO2传感器',
