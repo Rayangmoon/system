@@ -1,12 +1,12 @@
 <template>
   <div>
+  <div>
     <!--  面包屑导航-->
     <el-breadcrumb class="bread">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>能源管理</el-breadcrumb-item>
       <el-breadcrumb-item>主界面</el-breadcrumb-item>
     </el-breadcrumb>
-<<<<<<< HEAD
   </div>
     <div class="img" :style ="note">
       <el-button circle class="button1" @click="ToEnergyElectricity">1</el-button>
@@ -19,19 +19,6 @@
 <!--          </el-image>-->
 <!--        </div>-->
 <!--      </div>-->
-=======
-
-    <div class="demo-image">
-      <div class="block" v-for="fit in fits" :key="fit">
-        <el-image
-          style="width: auto; height: auto"
-          :src="url"
-          :fit="fit">
-
-        </el-image>
-      </div>
-    </div>
->>>>>>> 0d4cc0602ab37ce76c25311a4a886321c28dc22a
   </div>
 </template>
 

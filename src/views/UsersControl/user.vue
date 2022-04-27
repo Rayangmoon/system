@@ -13,11 +13,12 @@
           </el-input>
         </el-col>
         <el-col :span="7"></el-col>
+        <el-button type="primary" @click="dialogFormVisible = true" class="but">增加用户</el-button>
       </el-row>
 
       <!--用户列表区-->
       <el-table
-          :data="tableData"
+          :data="userlist"
           style="width: 100%"
           border stripe
           class="table">
@@ -25,28 +26,27 @@
             type="index">
         </el-table-column>
         <el-table-column
-            prop="1"
+            prop="name"
             label="姓名">
         </el-table-column>
         <el-table-column
-            prop="2"
+            prop="roleName"
             label="用户身份">
         </el-table-column>
         <el-table-column
-            prop="3"
+            prop="status"
             label="用户状态">
-          <el-switch
-              v-model= ture >
-          </el-switch>
+<!--          <el-switch-->
+<!--              v-model= ture >-->
+<!--          </el-switch>-->
         </el-table-column>
         <el-table-column
             prop="4"
             label="操作">
           <template #default="scope">
-          <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑
-          </el-button>
+
           <el-button type="text" icon="el-icon-delete" class="red"
-                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                     @click="open(scope.row.name)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -54,14 +54,34 @@
       <el-pagination class="pagination"
                      @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
-                     :current-page="currentPage"
+                     :current-page="this.queryInfo.page"
                      :page-sizes="[1, 2, 4, 10]"
-                     :page-size="4"
-                     layout="total, sizes, prev, pager, next, jumper"
-                     :total="4">
+                     :page-size="1"
+                     layout="total, prev, pager, next, jumper"
+                     :total="total">
       </el-pagination>
-      <div id="main" style="width: 1200px;height:400px;" class="chart"></div>
     </el-card>
+<!--    编辑弹出框-->
+    <el-dialog title="增加用户" :visible.sync="dialogFormVisible" width="40%" @close="dialogclose">
+      <el-form :model="form" ref="form">
+        <el-form-item label="用户名字" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="用户身份" :label-width="formLabelWidth">
+          <el-input v-model="form.role" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名" :label-width="formLabelWidth">
+          <el-input v-model="form.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码" :label-width="formLabelWidth">
+          <el-input v-model="form.passwd" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="Addusers">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -91,11 +111,24 @@ export default {
         3: '',
         4:'',
       }],
+      userlist: [],
+      total:10,
       queryInfo:{
         page: 1,
       },
       currentPage: 1,
+      dialogFormVisible: false,
+      form: {
+        name: '',
+        Name: '',
+        username: '',
+        passwd: '',
+      },
+      formLabelWidth: '120px'
     }
+  },
+  created(){
+    this.getuserlist()
   },
   methods: {
     handleSizeChange(newsize) {
@@ -103,7 +136,53 @@ export default {
     },
     handleCurrentChange(newchang) {
       console.log(`当前页: ${newchang}`);
+      this.queryInfo.page = newchang;
+      this.getuserlist()
     },
+    async getuserlist(){
+      const {data:res} = await this.$axios.get('http://150.158.37.65:8081/admin/userManage/userQuery/page', {params:this.queryInfo})
+      if(res.code!==200){
+        return this.$message.error("获取用户列表失败")}
+      console.log(res)
+      this.userlist = res.data.result
+      this.total = res.data.total_page
+    },
+    async open(name) {
+      const r = await this.$confirm('此操作将永久删除该用户，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if(r !== "confirm"){
+         return this.$message.info('已取消删除')
+      }
+      const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/userManage/userDel'+name)
+      if(res.code !== 200){
+        return this.$message.error("删除用户失败")
+      }
+      this.$message.success("删除用户成功")
+      this.getuserlist()
+
+    },
+    dialogclose(){
+      this.$refs.form.resetFields()
+    },
+    Addusers(){
+      this.$refs.form.validate(valid => {
+        if(!valid) return this.$message.error('请添加用户名或密码')
+        // 可以发起请求
+        this.$axios.post('http://150.158.37.65:8081/admin/userManage/userAdd', this.form).then((res)=> {
+          if (res.data.code !== 200) {
+            return this.$message.error('用户名和密码导入失败')
+          } else {
+            this.$message.success('导入成功')
+            this.dialogFormVisible = false
+            this.getuserlist()
+          }
+
+        })
+      })
+    }
   }
 }
 </script>
@@ -124,5 +203,8 @@ export default {
 }
 .red {
   color: #ff0000;
+}
+.but{
+  margin-left: 20px;
 }
 </style>
