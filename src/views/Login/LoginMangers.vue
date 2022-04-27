@@ -70,12 +70,13 @@ export default {
           // const _this =this
           this.$axios.post('http://150.158.37.65:8081/test', this.ruleForm).then((res)=>{
             if (res.data.code !== 200) {
+              console.log(res)
               return this.$message.error('用户名或密码错误')
             } else {
               this.$message.success('登录成功')
             }
-            let cookie = res.headers.cookie
-            console.log(cookie)
+            // let cookie = res.headers.cookie
+            // console.log(cookie)
             // sessionStorage.setItem("token", res.headers["set-cookie"])
             console.log(res)
             // _this.$store.commit('SET_TOKEN', token)

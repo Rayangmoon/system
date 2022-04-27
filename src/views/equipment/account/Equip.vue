@@ -38,16 +38,17 @@
 
         <el-table
             ref="filterTable"
-            :data="tableData"
+            :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
             style="width: 100%"
             max-height='500px'
             >
-            <el-table-column
-            prop="id"
-            label="序号"
-            width="40"
-            fixed="left"
-            >
+            <el-table-column 
+                label="序号" 
+                width="50px" 
+                align="center">
+                    <template slot-scope="scope">
+                    {{ scope.$index + (currentPage - 1) * pageSize + 1 }}
+                    </template>
             </el-table-column>
             <el-table-column
             prop="equip_id"
@@ -168,6 +169,15 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[4, 6, 8, 10]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData.length">
+        </el-pagination>
     </div>
 
 </template>
@@ -186,10 +196,20 @@ export default {
         },
         handleDelete(index, row) {
             console.log(index, row);
+        },
+        handleSizeChange(val) {
+            this.pageSize = val
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val
+            console.log(`当前页: ${val}`);
         }
     },
     data() {
     return {
+        currentPage: 1,
+        pageSize:10,
         dialogFormVisible: false,
         form: {
           name: '',
@@ -208,7 +228,6 @@ export default {
         },
         tableData: [
             {
-                id:'1',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
@@ -231,7 +250,6 @@ export default {
                 replace_record:'2019/7/13'
             },
             {
-                id:'2',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
@@ -254,7 +272,6 @@ export default {
                 replace_record:'2019/7/13'
             },
             {
-                id:'3',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
@@ -277,7 +294,6 @@ export default {
                 replace_record:'2019/7/13'
             },
             {
-                id:'4',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
@@ -300,7 +316,6 @@ export default {
                 replace_record:'2019/7/13'
             },
             {
-                id:'5',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
@@ -323,7 +338,6 @@ export default {
                 replace_record:'2019/7/13'
             },
             {
-                id:'6',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
@@ -346,7 +360,6 @@ export default {
                 replace_record:'2019/7/13'
             },
             {
-                id:'7',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
@@ -369,7 +382,6 @@ export default {
                 replace_record:'2019/7/13'
             },
             {
-                id:'8',
                 equip_id:'15687686',
                 type:'BA',
                 equip_type:'传感器',
