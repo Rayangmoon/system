@@ -30,5 +30,6 @@ Vue.use(BaiduMap, {
 new Vue({
   store,
   router,
+  axios,
   render: h => h(App),
 }).$mount('#app')

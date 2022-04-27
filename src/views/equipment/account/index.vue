@@ -13,7 +13,7 @@
         <status></status>
       </el-tab-pane>
       <el-tab-pane label="备件管理">
-        
+        <spare></spare>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -21,9 +21,10 @@
 
 <script>
 import Equip from '../account/Equip.vue'
+import Spare from './Spare.vue'
 import Status from './Status.vue'
 export default {
-  components:{Equip, Status}
+  components:{Equip, Status , Spare}
 }
 </script>
 
