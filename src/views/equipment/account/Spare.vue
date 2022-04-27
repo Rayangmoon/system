@@ -34,10 +34,10 @@
                     <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
                 </el-upload>
             </el-form-item>
-            
+
 
             <el-dialog title="新增设备" :visible.sync="dialogFormVisible">
-                
+
                 <el-form :model="form">
                     <el-form-item label="设备名称" :label-width="formLabelWidth">
                         <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -60,7 +60,7 @@
                     <el-form-item label="型号" :label-width="formLabelWidth">
                         <el-input v-model="form.model" autocomplete="off"></el-input>
                     </el-form-item>
-                    
+
                     <el-form-item label="规格" :label-width="formLabelWidth">
                         <el-input v-model="form.specification" autocomplete="off"></el-input>
                     </el-form-item>
@@ -131,7 +131,7 @@
             label="制造商"
             >
             </el-table-column>
-            
+
             <el-table-column
             prop="count"
             label="数量"
@@ -145,7 +145,7 @@
                     <el-button @click="handleIn(scope.$index, scope.row, tableData)" type="text" size="small">入库</el-button>
                     <el-button @click="handleOut(scope.$index, scope.row, tableData)" type="text" size="small">出库</el-button>
             </template>
-            
+
             </el-table-column>
 
         </el-table>
@@ -243,7 +243,7 @@ export default {
                 // reader.readAsBinaryString(file)     //使用原始input方法
             })
         },
-        
+
         filterTag(value, row) {
             return row.type === value;
         },
@@ -318,5 +318,5 @@ export default {
 }
 </script>
 <style scoped>
-    
+
 </style>

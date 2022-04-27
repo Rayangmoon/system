@@ -114,6 +114,9 @@ export default {
 </script>
 
 <style scoped>
+.bread{
+  margin-top: 10px;
+}
 .common-layout .el-header{
   background-color: #373d41;
   /*color: var(--el-text-color-primary);*/

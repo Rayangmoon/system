@@ -16,11 +16,13 @@
         </el-input>
         </el-col>
         <el-col :span="7"></el-col>
+        <DaoChu :id="spreadsheet.id" :name="spreadsheet.name" class="Dao">导出</DaoChu>
       </el-row>
 
        <!--用户列表区-->
       <el-table
           :data="tableData"
+          :id="spreadsheet.id"
           style="width: 100%"
           border stripe
           class="table">
@@ -74,7 +76,9 @@
 
 <script>
 import * as echarts from 'echarts';
+import DaoChu from "@/views/energy/consumption/DaoChu";
 export default {
+  components: {DaoChu},
   data() {
     return {
       tableData: [{
@@ -110,6 +114,10 @@ export default {
         page: 1,
       },
       currentPage: 1,
+      spreadsheet: {
+        id: "exportTable", //id
+        name: "导出电能数据", //导出文件名
+      },
     }
   },
   mounted(){
@@ -186,5 +194,8 @@ export default {
 }
 .chart{
   margin-top: 40px;
+}
+.Dao{
+  margin-left: 10px;
 }
 </style>

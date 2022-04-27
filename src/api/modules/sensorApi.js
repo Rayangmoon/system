@@ -3,7 +3,7 @@
 import axios from '../apiWrapper'
 
 export const getSensor = (page) => {
-  return axios.get(`/user/aircondition?page=${page}`);
+  return axios.get(`/user/aircondition/page?page=${page}`);
 }
 
 export const postPost = (params) => {
