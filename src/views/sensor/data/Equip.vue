@@ -14,31 +14,31 @@
     </el-table-column>
     
     <el-table-column
-      prop="relativeHumidity"
+      prop="relative_humidity"
       label="相对湿度">
     </el-table-column>
     <el-table-column
-      prop="currentTemperature"
+      prop="current_temperature"
       label="温度">
     </el-table-column>
     <el-table-column
-      prop="lightLuxValue"
+      prop="light_lux_value"
       label="光照度值">
     </el-table-column>
     <el-table-column
-      prop="soundDecibelValue"
+      prop="sound_decibel_value"
       label="声音分贝值">
     </el-table-column>
     <el-table-column
-      prop="co2Value"
+      prop="c_O2_value"
       label="二氧化碳浓度">
     </el-table-column>
     <el-table-column
-      prop="pm25Value"
+      prop="p_m25_value"
       label="pm2.5检测值">
     </el-table-column>
     <el-table-column
-      prop="deviceId"
+      prop="device_id"
       label="设备编号">
     </el-table-column>
     
@@ -69,11 +69,11 @@ export default {
   methods: {
     getSensor(){
       api.sensorApi.getSensor(this.currentPage).then(res => {
-        if(res.code === "200"){
+        // if(res.code == "200"){
           console.log(res)
           this.totalPage = res.data.total_page
           this.tableData = res.data.result
-        }
+        
       }).catch(
         res => {
           console.log('error',res)
