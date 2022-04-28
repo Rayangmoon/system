@@ -226,6 +226,7 @@ export default {
             api.equipmentApi.getDevice(this.currentPage).then(res => {
                 // if(res.code == "200"){
                 console.log(res)
+                console.log('看一下这的测试数据',res.data.data)
                 this.totalPage = res.data.data.total_page
                 this.tableData = res.data.data.result
                 
