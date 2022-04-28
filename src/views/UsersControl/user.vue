@@ -17,34 +17,13 @@
       </el-row>
 
       <!--用户列表区-->
-      <el-table
-          :data="userlist"
-          style="width: 100%"
-          border stripe
-          class="table">
-        <el-table-column
-            type="index">
-        </el-table-column>
-        <el-table-column
-            prop="name"
-            label="姓名">
-        </el-table-column>
-        <el-table-column
-            prop="roleName"
-            label="用户身份">
-        </el-table-column>
-        <el-table-column
-            prop="status"
-            label="用户状态">
-<!--          <el-switch-->
-<!--              v-model= ture >-->
-<!--          </el-switch>-->
-        </el-table-column>
-        <el-table-column
-            prop="4"
-            label="操作">
-          <template #default="scope">
-
+      <el-table :data="userlist" style="width: 100%" border stripe class="table">
+        <el-table-column type="index"></el-table-column>
+        <el-table-column prop="name" label="姓名"></el-table-column>
+        <el-table-column prop="role_name" label="用户身份"></el-table-column>
+        <el-table-column prop="status" label="用户状态" :formatter="formatRole"></el-table-column>
+        <el-table-column prop="4" label="操作">
+          <template slot-scope="scope">
           <el-button type="text" icon="el-icon-delete" class="red"
                      @click="open(scope.row.name)">删除</el-button>
           </template>
@@ -68,7 +47,10 @@
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="用户身份" :label-width="formLabelWidth">
-          <el-input v-model="form.role" autocomplete="off"></el-input>
+<!--          <el-input v-model="form.role" autocomplete="off"></el-input>-->
+          <el-select v-model="form.role" clearable placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="form.username" autocomplete="off"></el-input>
@@ -90,6 +72,13 @@ export default {
   name: "user",
   data() {
     return {
+      options: [{
+        value: 'user',
+        label: '普通用户'
+      }, {
+        value: 'admin',
+        label: '管理员'
+      }],
       tableData: [{
         1: '张三',
         2: '普通用户',
@@ -120,7 +109,7 @@ export default {
       dialogFormVisible: false,
       form: {
         name: '',
-        Name: '',
+        role: '',
         username: '',
         passwd: '',
       },
@@ -139,6 +128,9 @@ export default {
       this.queryInfo.page = newchang;
       this.getuserlist()
     },
+    formatRole: function( row ) {
+      return row.status === '1' ? "在线" : row.status === '0' ? "不在线" : "aaa";
+    },
     async getuserlist(){
       const {data:res} = await this.$axios.get('http://150.158.37.65:8081/admin/userManage/userQuery/page', {params:this.queryInfo})
       if(res.code!==200){
@@ -156,13 +148,13 @@ export default {
       if(r !== "confirm"){
          return this.$message.info('已取消删除')
       }
-      const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/userManage/userDel'+name)
+      const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/userManage/userDel',{data:{name:name}})
       if(res.code !== 200){
         return this.$message.error("删除用户失败")
       }
       this.$message.success("删除用户成功")
       this.getuserlist()
-
+      console.log(res)
     },
     dialogclose(){
       this.$refs.form.resetFields()
@@ -179,7 +171,7 @@ export default {
             this.dialogFormVisible = false
             this.getuserlist()
           }
-
+          console.log(res)
         })
       })
     }

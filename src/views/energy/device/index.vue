@@ -21,43 +21,17 @@
       </el-row>
 
       <!--用户列表区-->
-      <el-table
-          :data="tableData"
-          style="width: 100%"
-          border stripe
-          class="table">
-        <el-table-column
-            type="index">
+      <el-table :data="tableData" style="width: 100%" border stripe class="table">
+        <el-table-column type="index"></el-table-column>
+        <el-table-column prop="1" label="传感器类型" width="180"></el-table-column>
+        <el-table-column prop="2" label="位置" width="180"></el-table-column>
+        <el-table-column prop="3" label="状态">
+          <el-switch v-model= ture ></el-switch>
         </el-table-column>
-        <el-table-column
-            prop="1"
-            label="传感器类型"
-            width="180">
+        <el-table-column prop="4" label="运行状况"></el-table-column>
+        <el-table-column prop="5" label="设备id">
         </el-table-column>
-        <el-table-column
-            prop="2"
-            label="位置"
-            width="180">
-        </el-table-column>
-        <el-table-column
-            prop="3"
-            label="状态">
-          <el-switch
-              v-model= ture >
-          </el-switch>
-        </el-table-column>
-        <el-table-column
-            prop="4"
-            label="运行状况">
-        </el-table-column>
-        <el-table-column
-            prop="5"
-            label="设备id">
-        </el-table-column>
-        <el-table-column
-            prop="6"
-            label="操作类型">
-        </el-table-column>
+        <el-table-column prop="6" label="操作类型"></el-table-column>
       </el-table>
       <!--      分页-->
       <el-pagination class="pagination"
