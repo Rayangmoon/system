@@ -45,63 +45,103 @@
             <el-table-column
             prop="id"
             label="序号"
-            width="40"
-            fixed="left"
-            >
+            width="50">
             </el-table-column>
+
+
             <el-table-column
-            prop="equip_id"
+            prop="device_id"
             label="设备编号"
             width="120"
             >
             </el-table-column>
+
+
             <el-table-column
-            prop="type"
-            label="分类"
+            prop="type_id"
+            label="分类号"
             width="40"
             >
             </el-table-column>
+
+
             <el-table-column
             prop="equip_type"
             label="设备分类">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
             prop="property"
             label="固定资产编号"
             >
-            </el-table-column>
+            </el-table-column> -->
+
+
             <el-table-column
-            prop="name"
+            prop="device_name"
             label="设备名称"
             >
             </el-table-column>
+
+
             <el-table-column
-            prop="model"
-            label="型号"
+            prop="param"
+            label="型号参数"
             >
             </el-table-column>
-            <el-table-column
+
+
+            <!-- <el-table-column
             prop="specification"
             label="规格"
             width='220'
             >
-            </el-table-column>
+            </el-table-column> -->
+
+
             <el-table-column
-            prop="production"
-            label="制造商"
+            prop="manu_info"
+            label="制造商信息"
             >
             </el-table-column>
+
+
             <el-table-column
             prop="description"
             label="设备描述"
             >
             </el-table-column>
             <el-table-column
-            prop="location"
+            prop="address_id"
             label="安装位置"
             >
             </el-table-column>
+
+
+
+
             <el-table-column
+            prop="status"
+            label="状况"
+            >
+            </el-table-column>
+
+            <el-table-column
+            prop="next_maintain_time"
+            label="预计更换日期"
+            >
+            </el-table-column>
+            <el-table-column
+            prop="expired_time"
+            label="到期时间"
+            >
+            </el-table-column>
+            <el-table-column
+            prop="create_time"
+            label="投用日期"
+            >
+            </el-table-column>
+
+            <!-- <el-table-column
             prop="out_id"
             label="出厂编号"
             >
@@ -121,11 +161,7 @@
             label="投用日期(月)"
             >
             </el-table-column>
-            <el-table-column
-            prop="status"
-            label="状况"
-            >
-            </el-table-column>
+
             <el-table-column
             prop="remark"
             label="备注"
@@ -149,8 +185,8 @@
             <el-table-column
             prop="replace_record"
             label="设备更换记录"
-            >
-            </el-table-column>
+            > 
+            </el-table-column>  -->
             <el-table-column
             fixed="right"
             label="操作"
@@ -164,17 +200,41 @@
                     <el-button
                     size="mini"
                     type="danger"
-                    @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    @click="handleDelete(scope.$index, scope.row, tableData)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="10"
+            layout="prev, pager, next, jumper"
+            :total="totalPage">
+        </el-pagination>
     </div>
 
 </template>
 
 <script>
+import api from '../../../api/api'
 export default {
+    mounted() {
+        this.getDevice()
+    },
     methods: {
+        getDevice(){
+            api.equipmentApi.getDevice(this.currentPage).then(res => {
+                // if(res.code == "200"){
+                console.log(res)
+                this.totalPage = res.data.total_page
+                this.tableData = res.data.result
+                
+            }).catch(
+                res => {
+                console.log('error',res)
+                }
+            )
+        },
         filterTag(value, row) {
             return row.type === value;
         },
@@ -184,12 +244,33 @@ export default {
         handleEdit(index, row) {
             console.log(index, row);
         },
-        handleDelete(index, row) {
-            console.log(index, row);
+        handleDelete(index, row, tableData) {
+            tableData.splice(index , 1)
+            console.log(row.device_id)
+            let th = {
+                params:{
+                   'device_id':row.device_id
+                }
+            }
+            api.equipmentApi.delDevice(th).then(res => {
+                console.log('删除成功',res)
+            }).catch(
+                res => {
+                console.log('error',res)
+                }
+            )
+
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val
+            console.log(`当前页: ${val}`);
+            this.getDevice()
         }
     },
     data() {
     return {
+        currentPage: 1,
+        totalPage:1,
         dialogFormVisible: false,
         form: {
           name: '',
@@ -207,190 +288,6 @@ export default {
           region: ''
         },
         tableData: [
-            {
-                id:'1',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
-            {
-                id:'2',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
-            {
-                id:'3',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
-            {
-                id:'4',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
-            {
-                id:'5',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
-            {
-                id:'6',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
-            {
-                id:'7',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
-            {
-                id:'8',
-                equip_id:'15687686',
-                type:'BA',
-                equip_type:'传感器',
-                property:'无',
-                name:'风管温度传感器',
-                model:'H8040N0021',
-                specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                production:'霍尼韦尔',
-                description:'AHU-1-1回风温度',
-                location:'主楼1F空调机房',
-                out_id:'2021.7.1',
-                service_life:'10',
-                year_of_use:'2021',
-                month_of_use:'7',
-                status:'在用',
-                remark:'',
-                last_replace_date:'2021/7/17',
-                expected_replace_year:'2031',
-                expected_replace_month:'7',
-                replace_record:'2019/7/13'
-            },
             
         ]
     }

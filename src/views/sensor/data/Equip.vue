@@ -8,42 +8,48 @@
     max-height='410px'
     >
     <el-table-column
-      prop="name"
-      label="设备名称"
-      width="180">
+      prop="id"
+      label="序号"
+      width="50">
+    </el-table-column>
+    
+    <el-table-column
+      prop="relative_humidity"
+      label="相对湿度">
     </el-table-column>
     <el-table-column
-      prop="location"
-      label="所在区域"
-      width="180">
+      prop="current_temperature"
+      label="温度">
     </el-table-column>
     <el-table-column
-      prop="data"
-      label="检测值">
+      prop="light_lux_value"
+      label="光照度值">
     </el-table-column>
     <el-table-column
-      prop="time"
-      label="更新时间"
-      sortable
-    >
+      prop="sound_decibel_value"
+      label="声音分贝值">
     </el-table-column>
     <el-table-column
-      prop="history"
-      label="历史值">
-      <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-        <el-button type="text" size="small">编辑</el-button>
-      </template>
+      prop="c_O2_value"
+      label="二氧化碳浓度">
     </el-table-column>
+    <el-table-column
+      prop="p_m25_value"
+      label="pm2.5检测值">
+    </el-table-column>
+    <el-table-column
+      prop="device_id"
+      label="设备编号">
+    </el-table-column>
+    
     
     </el-table>
     <el-pagination
-      @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
-      :page-size="100"
+      :current-page.sync="currentPage"
+      :page-size="10"
       layout="prev, pager, next, jumper"
-      :total="1000">
+      :total="totalPage">
     </el-pagination>
     <div class="charts">
       <Chart1></Chart1>
@@ -53,68 +59,39 @@
 
 <script>
 import Chart1 from '../data/Chart1.vue'
+import api from '../../../api/api'
 export default {
   name:'Equip',
   components:{Chart1},
-  // mounted() {
-  //   this.axios.get('http://150.158.37.65/user/aircondition',{
-  //           'page': 1
-  //       }).then((response) => {
-  //     console.log('there',response.data)
-  //   })
-  // },
+  mounted() {
+    this.getSensor()
+  },
   methods: {
-    handleClick(row) {
-      console.log(row);
+    getSensor(){
+      api.sensorApi.getSensor(this.currentPage).then(res => {
+        // if(res.code == "200"){
+          console.log(res)
+          this.totalPage = res.data.total_page
+          this.tableData = res.data.result
+        
+      }).catch(
+        res => {
+          console.log('error',res)
+        }
+      )
     },
-    handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
     handleCurrentChange(val) {
+      this.currentPage = val
       console.log(`当前页: ${val}`);
+      this.getSensor()
+
     }
   },
   data() {
     return {
-      currentPage3: 5,
-      tableData: [
-        {
-          name:'CO2传感器',
-          location:'外线南门',
-          data:'900ppm',
-          time:'2022-03-16'
-        },
-        {
-          name:'PM2.5传感器',
-          location:'正门',
-          data:'45ug/m³',
-          time:'2022-03-18'
-        },
-        {
-          name:'甲醛传感器',
-          location:'601-1',
-          data:'0.08mg/m³',
-          time:'2022-03-17'
-        },
-        {
-          name:'负氧离子传感器',
-          location:'停车场',
-          data:'1500个/cm³',
-          time:'2022-03-18'
-        },
-        {
-          name:'声音分贝传感器',
-          location:'西侧安全出口',
-          data:'52dB',
-          time:'2022-03-17'
-        },
-        {
-          name:'光照传感器',
-          location:'场馆中心',
-          data:'357勒克斯',
-          time:'2022-03-18'
-        },
-      ]
+      currentPage: 1,
+      totalPage:1,
+      tableData: []
     }
   }
 }

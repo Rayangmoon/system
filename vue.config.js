@@ -27,6 +27,20 @@ module.exports = defineConfig({
 
 
   },
+  devServer: {  
+    //代理服务器解决跨域
+    proxy: {
+        //会把请求路径中的/api换为后面的代理服务器
+        '/api': {
+            //提供数据的服务器地址
+            target: 'http://150.158.37.65:8081',
+            changeOrigin: true,
+            pathRewrite: { '^/api': '' },
+
+        }
+    },
+  },
+
   
   lintOnSave:false
 })

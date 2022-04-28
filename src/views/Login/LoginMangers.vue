@@ -75,8 +75,8 @@ export default {
             } else {
               this.$message.success('登录成功')
             }
-            let cookie = res.headers.cookie
-            console.log(cookie)
+            // let cookie = res.headers.cookie
+            // console.log(cookie)
             // sessionStorage.setItem("token", res.headers["set-cookie"])
             console.log(res)
             // _this.$store.commit('SET_TOKEN', token)
