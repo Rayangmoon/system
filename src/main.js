@@ -17,6 +17,7 @@ axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.delete['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.transformRequest = [function (data) {
   let ret = ''
   for (let it in data) {

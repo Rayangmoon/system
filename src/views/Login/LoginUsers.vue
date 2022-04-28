@@ -50,8 +50,8 @@ export default {
     }
     return {
       ruleForm: {
-        username: 'administrator',
-        passwd: 'shanghaiuniversity',
+        username: '423312126',
+        passwd: 'wsyzzkldxz2022',
         // token: ''
       },
       rules: {

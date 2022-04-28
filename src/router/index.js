@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login/LoginUsers.vue'
 import LoginMangers from '../views/Login/LoginMangers.vue'
 import User from '../views/UsersControl/user.vue'
+import BaoBiao from '../views/energy/consumption/BaoBiao.vue'
 
 import Home from 'home/index'
 
@@ -40,6 +41,11 @@ const routes =[
         path: '/LoginMangers',
         name: 'LoginMangers',
         component: LoginMangers
+    },
+    {
+        path: '/BaoBiao',
+        name: 'BaoBiao',
+        component: BaoBiao
     },
     {
         path:'/Main',
@@ -117,7 +123,7 @@ const routes =[
                             },
                         ]
                     },
-                    
+
                 ]
             },
             // 能源模块

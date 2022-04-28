@@ -6,12 +6,20 @@
       <el-breadcrumb-item>能耗数据分析</el-breadcrumb-item>
     </el-breadcrumb>
     <div id="main" style="width: 1200px;height:400px;" class="chart"></div>
+    <el-button type="success" icon="el-icon-link" class="b1" @click="ToEnergyconsumptionBaoBiao">转到报表页</el-button>
   </div>
 </template>
 
 <script>
 import * as echarts from 'echarts';
 export default {
+  methods: {
+    ToEnergyconsumptionBaoBiao() {
+      this.$router.push({
+        name: 'BaoBiao',
+      })
+    }
+  },
   mounted(){
     var myChart = echarts.init(document.getElementById('main'))
     var option = {
@@ -57,8 +65,11 @@ export default {
   margin-top: 10px;
   margin-bottom: 15px;
 }
+.b1{
+  margin-left: 1000px;
+}
 
 </style>
-.chart{
-margin-top: 40px;
-}
+<!--.chart{-->
+<!--margin-top: 40px;-->
+<!--}-->
