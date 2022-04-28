@@ -71,8 +71,8 @@ export default {
       api.sensorApi.getSensor(this.currentPage).then(res => {
         // if(res.code == "200"){
           console.log(res)
-          this.totalPage = res.data.total_page
-          this.tableData = res.data.result
+          this.totalPage = res.data.data.total_page
+          this.tableData = res.data.data.result
         
       }).catch(
         res => {
