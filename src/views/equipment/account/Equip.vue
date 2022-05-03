@@ -125,6 +125,9 @@
             <el-table-column
             prop="equip_type"
             label="设备分类">
+                <template slot-scope="scope">
+                    {{ handleDeviceType(scope.row.type_id) }}
+                </template>
             </el-table-column>
             <!-- <el-table-column
             prop="property"
@@ -171,6 +174,9 @@
             prop="address_id"
             label="安装位置"
             >
+                <template slot-scope="scope">
+                    {{ handleAddress(scope.row.address_id) }}
+                </template>
             </el-table-column>
 
 
@@ -375,50 +381,57 @@ export default {
             this.currentPage = val
             console.log(`当前页: ${val}`)
             this.getDevice()
-        }
+        },
+
+        handleDeviceType(typeId){
+            if(typeId == 1) return '能源'
+            else if(typeId == 2) return '传感器'
+        },
+        handleAddress(addressId){
+            if(addressId == 1) return '安全出口'
+            else if(addressId == 2) return '中央大厅'
+        },
     },
     data() {
-    return {
-        currentPage: 1,
-        totalPage:1,
-        dialogFormVisible: false,
-        deviceForm: {
-          device_name: '',
-          device_id: '',
-          type_id: '',
-          address_id: '',
-          param: '',
-          manu_info: '',
-          next_maintain_time: '',
-          expired_time:'',
-          status:'',
-          create_time:''
-        },
-        deviceRules:{
-            device_name: [
-                { required: true, message: '请输入设备名称', trigger: 'blur' },
-                { min: 0, max: 15, message: '长度不超过15个字符', trigger: 'blur' }
-            ],
-            device_id: [
-                { required: true, message: '请输入设备编号', trigger: 'blur' },
-            ],
-            type_id: [
-                { required: true, message: '请选择设备类型', trigger: 'change' },
-            ],
-            address_id: [
-                { required: true, message: '请选择设备安装位置', trigger: 'change' },
-            ]
-        },
-        formLabelWidth: '120px',
-        formInline: {
-          user: '',
-          region: ''
-        },
-        tableData: [
-            
-        ]
-    }
-    }
+        return {
+            currentPage: 1,
+            totalPage:1,
+            dialogFormVisible: false,
+            deviceForm: {
+            device_name: '',
+            device_id: '',
+            type_id: '',
+            address_id: '',
+            param: '',
+            manu_info: '',
+            next_maintain_time: '',
+            expired_time:'',
+            status:'',
+            create_time:''
+            },
+            deviceRules:{
+                device_name: [
+                    { required: true, message: '请输入设备名称', trigger: 'blur' },
+                    { min: 0, max: 15, message: '长度不超过15个字符', trigger: 'blur' }
+                ],
+                device_id: [
+                    { required: true, message: '请输入设备编号', trigger: 'blur' },
+                ],
+                type_id: [
+                    { required: true, message: '请选择设备类型', trigger: 'change' },
+                ],
+                address_id: [
+                    { required: true, message: '请选择设备安装位置', trigger: 'change' },
+                ]
+            },
+            formLabelWidth: '120px',
+            formInline: {
+            user: '',
+            region: ''
+            },
+            tableData: []
+        }
+    },
 }
 </script>
 <style scoped>
