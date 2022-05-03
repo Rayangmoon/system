@@ -49,7 +49,7 @@
       :current-page.sync="currentPage"
       :page-size="10"
       layout="prev, pager, next, jumper"
-      :total="totalPage">
+      :total="totalPage*10">
     </el-pagination>
     <div class="charts">
       <Chart1></Chart1>

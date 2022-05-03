@@ -3,12 +3,12 @@
 import axios from '../apiWrapper'
 
 export const getDevice = (page) => {
-  return axios.get(`/admin/deviceManger/deviceQuery/page?page=${page}`);
+  return axios.get(`/admin/deviceManage/deviceQuery/page?page=${page}`);
 }
 
 export const addDevice = (params) => {
-  return axios.post(`/admin/deviceManger/deviceAdd`, params);
-}
+ return axios.post(`/admin/deviceManage/deviceAdd`, params);
+} 
 
 export const putPost = (params) => {
   return axios.put(`api/user`,params);

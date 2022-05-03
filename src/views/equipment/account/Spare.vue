@@ -34,9 +34,9 @@
                     <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
                 </el-upload>
             </el-form-item>
+        </el-form>
 
-
-            <el-dialog title="新增设备" :visible.sync="dialogFormVisible">
+        <el-dialog title="新增设备" :visible.sync="dialogFormVisible">
 
                 <el-form :model="form">
                     <el-form-item label="设备名称" :label-width="formLabelWidth">
@@ -79,7 +79,6 @@
                     <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
                 </div>
             </el-dialog>
-        </el-form>
 
         <el-table
             ref="filterTable"
