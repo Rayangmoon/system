@@ -50,6 +50,8 @@
                     <el-form-item label="下次维保时间" :label-width="formLabelWidth">
                         <el-date-picker
                             v-model="deviceForm.next_maintain_time"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd"
                             style="width: 100%;"
                             type="date"
                             placeholder="选择下次维保时间">
@@ -58,6 +60,8 @@
                     <el-form-item label="到期时间" :label-width="formLabelWidth">
                         <el-date-picker
                             v-model="deviceForm.expired_time"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd"
                             style="width: 100%;"
                             type="date"
                             placeholder="选择到期时间">
@@ -74,6 +78,8 @@
                     <el-form-item label="投用日期" :label-width="formLabelWidth">
                         <el-date-picker
                             v-model="deviceForm.create_time"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd"
                             style="width: 100%;"
                             type="date"
                             placeholder="选择投用日期">
