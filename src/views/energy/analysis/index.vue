@@ -75,13 +75,13 @@ export default {
   background-color: darkred;
 }
 .button2{
-  margin-left: 200px;
-  margin-top: 200px;
+  margin-left: 20px;
+  margin-top: 20px;
   background-color: darkred;
 }
 .button3{
-  margin-left: 300px;
-  margin-top: 300px;
+  margin-left: 30px;
+  margin-top: 30px;
   background-color: darkred;
 }
 </style>

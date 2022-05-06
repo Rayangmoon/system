@@ -28,7 +28,7 @@
           <el-menu-item @click="ToEquipMain" index="3-1">主界面</el-menu-item>
           <el-menu-item @click="ToEquipAccount" index="3-2">设备台账</el-menu-item>
           <el-menu-item @click="ToEquipMaintain" index="3-3">维修与保养</el-menu-item>
-        </el-menu-item-group>   
+        </el-menu-item-group>
     </el-submenu>
 
     <el-submenu index="4">
@@ -52,7 +52,7 @@
         </el-menu-item-group>
     </el-submenu>
 
-  <el-menu-item @click="ToUser" index="5">
+  <el-menu-item @click="ToUser" index="5" v-if="isNeedAudit">
     <i class="el-icon-user"></i>
     <span slot="title">用户管理</span>
   </el-menu-item>
@@ -80,9 +80,20 @@
   export default {
     data() {
       return {
+        isNeedAudit: false
       };
     },
+    created() {
+      this.queryParam()
+    },
     methods: {
+      queryParam() {
+          if (this.$route.query.status[0]=== 'admin') {
+            this.isNeedAudit = true
+          } else {
+            this.isNeedAudit = false
+          }
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },

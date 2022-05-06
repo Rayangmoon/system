@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login/LoginUsers.vue'
 import LoginMangers from '../views/Login/LoginMangers.vue'
 import User from '../views/UsersControl/user.vue'
+import error from '../views/UsersControl/403.vue'
 import BaoBiao from '../views/energy/consumption/BaoBiao.vue'
 
 import Home from 'home/index'
@@ -61,6 +62,11 @@ const routes =[
                 name:'User',
                 path:'/user',
                 component:User
+            },
+            {
+                name:'error',
+                path:'/error',
+                component:error
             },
             // 传感器模块
             {

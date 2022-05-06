@@ -20,12 +20,12 @@
       <el-table :data="userlist" style="width: 100%" border stripe class="table">
         <el-table-column type="index"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="role_name" label="用户身份"></el-table-column>
-        <el-table-column prop="status" label="用户状态" :formatter="formatRole"></el-table-column>
+        <el-table-column property="role_name" label="用户身份" :formatter="playback"></el-table-column>
+        <el-table-column property="status" label="用户状态" :formatter="playbackFormat"></el-table-column>
         <el-table-column prop="4" label="操作">
           <template slot-scope="scope">
           <el-button type="text" icon="el-icon-delete" class="red"
-                     @click="open(scope.row.name)">删除</el-button>
+                     @click="open(scope.row.name,scope.row.role_name)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -42,20 +42,20 @@
     </el-card>
 <!--    编辑弹出框-->
     <el-dialog title="增加用户" :visible.sync="dialogFormVisible" width="40%" @close="dialogclose">
-      <el-form :model="form" ref="form">
-        <el-form-item label="用户名字" :label-width="formLabelWidth">
+      <el-form :model="form" ref="form" :rules="rules">
+        <el-form-item label="用户名字" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="用户身份" :label-width="formLabelWidth">
+        <el-form-item label="用户身份" :label-width="formLabelWidth" prop="role">
 <!--          <el-input v-model="form.role" autocomplete="off"></el-input>-->
           <el-select v-model="form.role" clearable placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="用户名" :label-width="formLabelWidth">
+        <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
           <el-input v-model="form.username" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="用户密码" :label-width="formLabelWidth">
+        <el-form-item label="用户密码" :label-width="formLabelWidth" prop="passwd">
           <el-input v-model="form.passwd" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -75,10 +75,12 @@ export default {
       options: [{
         value: 'user',
         label: '普通用户'
-      }, {
-        value: 'admin',
-        label: '管理员'
-      }],
+      },
+      //   {
+      //   value: 'admin',
+      //   label: '管理员'
+      // }
+      ],
       tableData: [{
         1: '张三',
         2: '普通用户',
@@ -113,7 +115,24 @@ export default {
         username: '',
         passwd: '',
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      rules: {
+        name: [
+          {required: true, message: '请输入用户姓名', trigger: 'blur'},
+          { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+        ],
+        username: [
+          {required: true, message: '请输入创建用户名', trigger: 'blur'},
+          { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
+        ],
+        passwd: [
+          {required: true, message: '请输入创建用户密码', trigger: 'blur'},
+          { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
+        ],
+        role: [
+          {required: true, message: '请选择用户身份', trigger: 'blur'},
+        ],
+      }
     }
   },
   created(){
@@ -128,18 +147,32 @@ export default {
       this.queryInfo.page = newchang;
       this.getuserlist()
     },
-    formatRole: function( row ) {
-      return row.status === '1' ? "在线" : row.status === '0' ? "不在线" : "aaa";
+    playback(row) {
+      if (row.role_name === 'admin') {
+        return '管理员'
+      } else  {
+        return '普通用户'
+      }
+    },
+    playbackFormat(row) {
+      if (row.status === 0) {
+        return '不在线'
+      } else  {
+        return '在线'
+      }
     },
     async getuserlist(){
       const {data:res} = await this.$axios.get('http://150.158.37.65:8081/admin/userManage/userQuery/page', {params:this.queryInfo})
       if(res.code!==200){
-        return this.$message.error("获取用户列表失败")}
+        // this.$router.push('/error')
+        return this.$message.error("获取用户列表失败")
+      }
       console.log(res)
       this.userlist = res.data.result
       this.total = res.data.total_page
     },
-    async open(name) {
+    async open(name,role_name) {
+      const dataB = JSON.parse(sessionStorage.getItem('缓存名称'))
       const r = await this.$confirm('此操作将永久删除该用户，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -149,7 +182,7 @@ export default {
          return this.$message.info('已取消删除')
       }
       const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/userManage/userDel',{data:{name:name}})
-      if(res.code !== 200){
+      if(res.code !== 200||role_name==='admin'){
         return this.$message.error("删除用户失败")
       }
       this.$message.success("删除用户成功")
