@@ -95,7 +95,15 @@ export default {
             console.log("用户名，密码")
             console.log(this.ruleForm.username)
             console.log(this.ruleForm.passwd)
-            this.$router.push('/Main')
+            console.log(res.data.data.user_id)
+            sessionStorage.setItem('缓存名称', JSON.stringify(res.data.data.user_id))
+            this.$router.push(
+                {
+                  //添加需要传值到那个页面的路径
+                  path:'/Main',
+                  //携带需要传递的参数
+                  query:{id:res.data.data.user_id,status:res.data.data.role}
+                });
           })
               // this.$axios.post('http://150.158.37.65:8082/login', this.ruleForm){username:encrypt(this.ruleForm.username),
           // passwd:encrypt(this.ruleForm.passwd)}
