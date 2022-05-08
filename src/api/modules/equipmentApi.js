@@ -13,8 +13,8 @@ export const addDevice = (params) => {
 export const putPost = (params) => {
   return axios.put(`api/user`,params);
 }
-export const delDevice = (params) => {
-  return axios.delete(`/admin/deviceManage/deviceDel`,params);
+export const delDevice = (device_id,params) => {
+  return axios.delete(`/admin/deviceManage/deviceDel/${device_id}`,params);
 }
 
 export const getPostsOrderBy = (orderBy,params) => {
