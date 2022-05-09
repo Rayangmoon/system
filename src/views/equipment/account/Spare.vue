@@ -36,49 +36,38 @@
             </el-form-item>
         </el-form>
 
-        <el-dialog title="新增设备" :visible.sync="dialogFormVisible">
-
-                <el-form :model="form">
-                    <el-form-item label="设备名称" :label-width="formLabelWidth">
-                        <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-dialog title="新增备件" :visible.sync="dialogFormVisible">
+                <el-form :model="deviceForm" :rules="deviceRules" label-width="100px" ref="deviceForm">
+                    <el-form-item label="备件名称" :label-width="formLabelWidth" prop="device_name">
+                        <el-input v-model="deviceForm.device_name" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="设备类型" :label-width="formLabelWidth">
-                        <el-select v-model="form.region" placeholder="请选择设备类型">
-                            <el-option label="传感器" value="sensor"></el-option>
-                            <el-option label="能源" value="energy"></el-option>
+                    <el-form-item label="备件编号" :label-width="formLabelWidth" prop="device_id">
+                        <el-input v-model="deviceForm.device_id" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="备件类型" :label-width="formLabelWidth" prop="type_id">
+                        <el-select v-model="deviceForm.type_id" placeholder="请选择设备类型">
+                            <el-option label="能源" value="1"></el-option>
+                            <el-option label="传感器" value="2" :disabled="true"></el-option>
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="分类" :label-width="formLabelWidth">
-                        <el-input v-model="form.type" autocomplete="off"></el-input>
+                    <el-form-item label="型号参数" :label-width="formLabelWidth">
+                        <el-input type="textarea" v-model="deviceForm.param" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="生产商信息" :label-width="formLabelWidth">
+                        <el-input v-model="deviceForm.manu_info" autocomplete="off"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="固定资产编号" :label-width="formLabelWidth">
-                        <el-input v-model="form.property" autocomplete="off"></el-input>
+                    <el-form-item label="数量" :label-width="formLabelWidth" prop="rest_num">
+                        <el-input type="rest_num" v-model.number="deviceForm.rest_num" autocomplete="off"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="型号" :label-width="formLabelWidth">
-                        <el-input v-model="form.model" autocomplete="off"></el-input>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitSpare('deviceForm')">创建备件</el-button>
+                        <el-button @click="resetSpare('deviceForm')">重置</el-button>
                     </el-form-item>
-
-                    <el-form-item label="规格" :label-width="formLabelWidth">
-                        <el-input v-model="form.specification" autocomplete="off"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="制造商" :label-width="formLabelWidth">
-                        <el-input v-model="form.production" autocomplete="off"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="数量" :label-width="formLabelWidth">
-                        <el-input v-model="form.count" autocomplete="off"></el-input>
-                    </el-form-item>
-
                 </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-                </div>
-            </el-dialog>
+        </el-dialog>
 
         <el-table
             ref="filterTable"
@@ -89,53 +78,55 @@
             <el-table-column
             prop="id"
             label="序号"
-            width="40"
-            fixed="left"
+            width="50">
+            </el-table-column>
+
+            <el-table-column
+            prop="device_id"
+            label="备件编号"
+            width="120"
             >
             </el-table-column>
 
             <el-table-column
-            prop="type"
-            label="分类"
+            prop="type_id"
+            label="分类号"
             width="40"
             >
             </el-table-column>
+
             <el-table-column
             prop="equip_type"
-            label="设备分类">
+            label="备件分类">
+                <template slot-scope="scope">
+                    {{ handleDeviceType(scope.row.type_id) }}
+                </template>
             </el-table-column>
+
             <el-table-column
-            prop="property"
-            label="固定资产编号"
-            >
-            </el-table-column>
-            <el-table-column
-            prop="name"
-            label="设备名称"
-            >
-            </el-table-column>
-            <el-table-column
-            prop="model"
-            label="型号"
-            >
-            </el-table-column>
-            <el-table-column
-            prop="specification"
-            label="规格"
-            width='220'
-            >
-            </el-table-column>
-            <el-table-column
-            prop="production"
-            label="制造商"
+            prop="device_name"
+            label="备件名称"
             >
             </el-table-column>
 
             <el-table-column
-            prop="count"
+            prop="param"
+            label="型号参数"
+            >
+            </el-table-column>
+
+            <el-table-column
+            prop="manu_info"
+            label="制造商信息"
+            >
+            </el-table-column>
+
+            <el-table-column
+            prop="rest_num"
             label="数量"
             >
             </el-table-column>
+
             <el-table-column
             fixed="right"
             label="操作"
@@ -146,9 +137,14 @@
             </template>
 
             </el-table-column>
-
         </el-table>
-
+        <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="10"
+            layout="prev, pager, next, jumper"
+            :total="totalPage">
+        </el-pagination>
         <el-dialog
             title="备件入库"
             :visible.sync="InDialogVisible"
@@ -158,13 +154,13 @@
                 <el-form :model="numberValidateForm" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item
                         label="新增入库件"
-                        prop="count"
+                        prop="rest_num"
                         :rules="[
                         { required: true, message: '件数不能为空'},
                         { type: 'number', message: '件数必须为数字值'}
                         ]"
                     >
-                        <el-input type="count" v-model.number="numberValidateForm.age" autocomplete="off"></el-input>
+                        <el-input type="rest_num" v-model.number="numberValidateForm.age" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
@@ -175,20 +171,77 @@
         </el-dialog>
 
         <el-dialog title="出库编辑" :visible.sync="outDialogVisible">
-            <el-form :model="form">
-                <el-form-item label="设备名称" :label-width="formLabelWidth">
-                <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-form :model="deviceAddForm" :rules="deviceAddRules" ref="deviceAddForm">
+                <el-form-item label="设备名称" :label-width="formLabelWidth" prop="device_name">
+                <el-input v-model="deviceAddForm.device_name" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="安装区域" :label-width="formLabelWidth">
-                <el-select v-model="form.region" placeholder="请选择安装区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-form-item label="设备编号" :label-width="formLabelWidth" prop="device_id">
+                    <el-input v-model="deviceAddForm.device_id" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="安装区域" :label-width="formLabelWidth" prop="address_id">
+                <el-select v-model="deviceAddForm.address_id" placeholder="请选择安装区域">
+                    <el-option label="安全出口" value="1" :disabled="true"></el-option>
+                    <el-option label="中央大厅" value="2"></el-option>
                 </el-select>
                 </el-form-item>
+                <el-form-item label="下次维保时间" :label-width="formLabelWidth" prop="next_maintain_time">
+                    <el-date-picker
+                        v-model="deviceAddForm.next_maintain_time"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
+                        style="width: 100%;"
+                        type="date"
+                        placeholder="选择下次维保时间">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="到期时间" :label-width="formLabelWidth" prop="expired_time">
+                    <el-date-picker
+                        v-model="deviceAddForm.expired_time"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
+                        style="width: 100%;"
+                        type="date"
+                        placeholder="选择到期时间">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="状态" :label-width="formLabelWidth">
+                    <el-radio-group v-model="deviceAddForm.status">
+                        <el-radio label="启动"></el-radio>
+                        <el-radio label="闲置"></el-radio>
+                        <el-radio label="故障"></el-radio>
+                        <el-radio label="报废"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="投用日期" :label-width="formLabelWidth" prop="create_time">
+                    <el-date-picker
+                        v-model="deviceAddForm.create_time"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
+                        style="width: 100%;"
+                        type="date"
+                        placeholder="选择投用日期">
+                    </el-date-picker>
+                </el-form-item>
+
+                <el-form-item label="设备类型" :label-width="formLabelWidth" prop="type_id" >
+                    <el-select v-model="deviceAddForm.type_id" placeholder="请选择设备类型" disabled>
+                        <el-option label="能源" value="1"></el-option>
+                        <el-option label="传感器" value="2" :disabled="true"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="型号参数" :label-width="formLabelWidth" >
+                    <el-input type="textarea" v-model="deviceAddForm.param" autocomplete="off" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="生产商信息" :label-width="formLabelWidth" >
+                    <el-input v-model="deviceAddForm.manu_info" autocomplete="off" disabled></el-input>
+                </el-form-item>   
+
+
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="outDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="outDialogVisible = false">确 定</el-button>
+                    <el-button type="primary" @click="submitOut('deviceAddForm')">创建出库设备</el-button>
+                    <el-button @click="resetOut('deviceAddForm')">重置</el-button>
             </div>
         </el-dialog>
     </div>
@@ -196,10 +249,27 @@
 </template>
 
 <script>
+import api from '../../../api/api'
 import XLSX from 'xlsx'
 export default {
-
+    mounted() {
+        this.getStore()
+    },
     methods: {
+        getStore(){
+            api.storeApi.getStore(this.currentPage).then(res => {
+                // if(res.code == "200"){
+                console.log(res)
+                console.log('看一下这的测试数据',res.data.data)
+                this.totalPage = res.data.data.total_page
+                this.tableData = res.data.data.result
+                
+            }).catch(
+                res => {
+                console.log('error',res)
+                }
+            )
+        },
         readExcel(file) {
             const types = file.name.split('.')[1]
             const fileType = ['xlsx', 'xlc', 'xlm', 'xls', 'xlt', 'xlw', 'csv'].some(item => item === types)
@@ -242,6 +312,57 @@ export default {
                 // reader.readAsBinaryString(file)     //使用原始input方法
             })
         },
+        submitSpare(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    api.storeApi.addStore(this.deviceForm).then(res => {
+                        console.log('post传输备件信息:',res)
+                    }).catch(
+                        res => {
+                            console.log('error msg :', res)
+                        }
+                    )
+                    console.log(this.deviceAddForm)
+
+                    this.dialogFormVisible = false
+                    alert('新增备件成功');
+                } else {
+                    console.log('error submit!!')
+                    return false
+                }
+            });
+        },
+        resetSpare(formName) {
+            this.$refs[formName].resetFields();
+        },
+        submitOut(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    // if(this.tableData) this.tableData.push(this.deviceForm)
+                    // else this.tableData = [this.deviceForm]
+                    
+                    api.equipmentApi.addDevice(this.deviceAddForm).then(res => {
+                        console.log('post出库设备信息:',res)
+                    }).catch(
+                        res => {
+                            console.log('error msg :', res)
+                        }
+                    )
+                    // let formData = this.createData()
+                    // console.log(formData)
+                    console.log(this.deviceAddForm)
+
+                    this.outDialogVisible = false
+                    alert('出库设备成功');
+                } else {
+                    console.log('error submit!!')
+                    return false
+                }
+            });
+        },
+        resetOut(formName) {
+            this.$refs[formName].resetFields();
+        },
 
         filterTag(value, row) {
             return row.type === value;
@@ -256,7 +377,12 @@ export default {
         },
         handleOut(index, row ,rows) {
             this.outDialogVisible = true
-            console.log(index, row , rows);
+            this.deviceAddForm.device_name = row.device_name
+            this.deviceAddForm.type_id = row.type_id
+            this.deviceAddForm.param = row.param
+            this.deviceAddForm.manu_info = row.manu_info
+            console.log(row);
+            
         },
         addCount(add , index){
             this.InDialogVisible = false
@@ -273,26 +399,92 @@ export default {
             })
             .catch(_ => {});
         },
+        handleCurrentChange(val) {
+            this.currentPage = val
+            console.log(`当前页: ${val}`)
+            this.getDevice()
+        },
+
+        handleDeviceType(typeId){
+            if(typeId == 1) return '能源'
+            else if(typeId == 2) return '传感器'
+        },
     },
     data() {
         return {
+            currentPage: 1,
+            totalPage:1,
+            dialogFormVisible: false,
+
             fileList: [],
             InDialogVisible:false,
             outDialogVisible:false,
-            dialogFormVisible: false,
+
             numberValidateForm: {
-            age: '',
-            index:''
+                age: '',
+                index:''
             },
-            form: {
-            name: '',
-            region: '',
-            type: '',
-            property: '',
-            model: '',
-            specification: '',
-            production: '',
-            count: ''
+            deviceForm: {
+                device_name: '',
+                device_id: '',
+                type_id: '',
+                address_id: '',
+                param: '',
+                manu_info: '',
+                next_maintain_time: '',
+                expired_time:'',
+                status:'',
+                create_time:'',
+                rest_num:''
+            },
+            deviceAddForm:{
+                device_name: '',
+                device_id: '',
+                type_id: '',
+                address_id: '',
+                param: '',
+                manu_info: '',
+                next_maintain_time: '',
+                expired_time:'',
+                status:'',
+                create_time:'',
+            },
+            deviceRules:{
+                device_name: [
+                    { required: true, message: '请输入备件名称', trigger: 'blur' },
+                    { min: 0, max: 15, message: '长度不超过15个字符', trigger: 'blur' }
+                ],
+                device_id: [
+                    { required: true, message: '请输入备件编号', trigger: 'blur' },
+                ],
+                type_id: [
+                    { required: true, message: '请选择备件类型', trigger: 'change' },
+                ],
+                rest_num: [
+                    { required: true, message: '件数不能为空'},
+                    { type: 'number', message: '件数必须为数字值'}
+                ]
+            },
+            deviceAddRules:{
+                device_name: [
+                    { required: true, message: '请输入设备名称', trigger: 'blur' },
+                    { min: 0, max: 15, message: '长度不超过15个字符', trigger: 'blur' }
+                ],
+                device_id: [
+                    { required: true, message: '请输入设备编号', trigger: 'blur' },
+                ],
+                address_id: [
+                    { required: true, message: '请选择设备安装位置', trigger: 'change' },
+                ],
+                next_maintain_time: [
+                    { required: true , message: '请选择下次维保时间', trigger: 'change'}
+                ],
+                expired_time: [
+                    { required: true , message: '请选择到期时间', trigger: 'change'}
+                ],
+                create_time: [
+                    { required: true , message: '请选择投用日期', trigger: 'change'}
+                ],
             },
             formLabelWidth: '100px',
             formInline: {
@@ -300,17 +492,6 @@ export default {
             region: ''
             },
             tableData: [
-                {
-                    id:'1',
-                    type:'BA',
-                    equip_type:'传感器',
-                    property:'无',
-                    name:'风管温度传感器',
-                    model:'H8040N0021',
-                    specification:'传感器元件NTC20K 防护等级IP54 温度范围-40~70℃',
-                    production:'霍尼韦尔',
-                    count:'3',
-                },
             ]
         }
     }

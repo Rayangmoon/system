@@ -26,7 +26,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item @click="ToEquipMain" index="3-1">主界面</el-menu-item>
-          <el-menu-item @click="ToEquipAccount" index="3-2">设备台账</el-menu-item>
+          <el-menu-item @click="ToEquipAccount" index="3-2" v-if="isNeedAudit">设备台账</el-menu-item>
           <el-menu-item @click="ToEquipMaintain" index="3-3">维修与保养</el-menu-item>
         </el-menu-item-group>
     </el-submenu>

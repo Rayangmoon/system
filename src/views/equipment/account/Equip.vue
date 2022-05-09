@@ -47,7 +47,7 @@
                     <el-form-item label="生产商信息" :label-width="formLabelWidth">
                         <el-input v-model="deviceForm.manu_info" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="下次维保时间" :label-width="formLabelWidth">
+                    <el-form-item label="下次维保时间" :label-width="formLabelWidth" prop="next_maintain_time">
                         <el-date-picker
                             v-model="deviceForm.next_maintain_time"
                             format="yyyy 年 MM 月 dd 日"
@@ -57,7 +57,7 @@
                             placeholder="选择下次维保时间">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="到期时间" :label-width="formLabelWidth">
+                    <el-form-item label="到期时间" :label-width="formLabelWidth" prop="expired_time">
                         <el-date-picker
                             v-model="deviceForm.expired_time"
                             format="yyyy 年 MM 月 dd 日"
@@ -75,7 +75,7 @@
                             <el-radio label="报废"></el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="投用日期" :label-width="formLabelWidth">
+                    <el-form-item label="投用日期" :label-width="formLabelWidth" prop="create_time">
                         <el-date-picker
                             v-model="deviceForm.create_time"
                             format="yyyy 年 MM 月 dd 日"
@@ -125,6 +125,9 @@
             <el-table-column
             prop="equip_type"
             label="设备分类">
+                <template slot-scope="scope">
+                    {{ handleDeviceType(scope.row.type_id) }}
+                </template>
             </el-table-column>
             <!-- <el-table-column
             prop="property"
@@ -171,6 +174,9 @@
             prop="address_id"
             label="安装位置"
             >
+                <template slot-scope="scope">
+                    {{ handleAddress(scope.row.address_id) }}
+                </template>
             </el-table-column>
 
 
@@ -309,6 +315,9 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
+                if(this.tableData) this.tableData.push(this.deviceForm)
+                else this.tableData = [this.deviceForm]
+                
                 api.equipmentApi.addDevice(this.deviceForm).then(res => {
                     console.log('post传输:',res)
                 }).catch(
@@ -357,12 +366,13 @@ export default {
         handleDelete(index, row, tableData) {
             tableData.splice(index , 1)
             console.log(row.device_id)
-            let th = {
-                params:{
-                   'device_id':row.device_id
-                }
-            }
-            api.equipmentApi.delDevice(th).then(res => {
+            let device_id = row.device_id
+            // let th = {
+            //     params:{
+            //        'device_id':row.device_id
+            //     }
+            // }
+            api.equipmentApi.delDevice(device_id).then(res => {
                 console.log('删除成功',res)
             }).catch(
                 res => {
@@ -375,50 +385,66 @@ export default {
             this.currentPage = val
             console.log(`当前页: ${val}`)
             this.getDevice()
-        }
+        },
+
+        handleDeviceType(typeId){
+            if(typeId == 1) return '能源'
+            else if(typeId == 2) return '传感器'
+        },
+        handleAddress(addressId){
+            if(addressId == 1) return '安全出口'
+            else if(addressId == 2) return '中央大厅'
+        },
     },
     data() {
-    return {
-        currentPage: 1,
-        totalPage:1,
-        dialogFormVisible: false,
-        deviceForm: {
-          device_name: '',
-          device_id: '',
-          type_id: '',
-          address_id: '',
-          param: '',
-          manu_info: '',
-          next_maintain_time: '',
-          expired_time:'',
-          status:'',
-          create_time:''
-        },
-        deviceRules:{
-            device_name: [
-                { required: true, message: '请输入设备名称', trigger: 'blur' },
-                { min: 0, max: 15, message: '长度不超过15个字符', trigger: 'blur' }
-            ],
-            device_id: [
-                { required: true, message: '请输入设备编号', trigger: 'blur' },
-            ],
-            type_id: [
-                { required: true, message: '请选择设备类型', trigger: 'change' },
-            ],
-            address_id: [
-                { required: true, message: '请选择设备安装位置', trigger: 'change' },
-            ]
-        },
-        formLabelWidth: '120px',
-        formInline: {
-          user: '',
-          region: ''
-        },
-        tableData: [
-            
-        ]
-    }
-    }
+        return {
+            currentPage: 1,
+            totalPage:1,
+            dialogFormVisible: false,
+            deviceForm: {
+                device_name: '',
+                device_id: '',
+                type_id: '',
+                address_id: '',
+                param: '',
+                manu_info: '',
+                next_maintain_time: '',
+                expired_time:'',
+                status:'',
+                create_time:''
+            },
+            deviceRules:{
+                device_name: [
+                    { required: true, message: '请输入设备名称', trigger: 'blur' },
+                    { min: 0, max: 15, message: '长度不超过15个字符', trigger: 'blur' }
+                ],
+                device_id: [
+                    { required: true, message: '请输入设备编号', trigger: 'blur' },
+                ],
+                type_id: [
+                    { required: true, message: '请选择设备类型', trigger: 'change' },
+                ],
+                address_id: [
+                    { required: true, message: '请选择设备安装位置', trigger: 'change' },
+                ],
+                next_maintain_time: [
+                    { required: true , message: '请选择下次维保时间', trigger: 'change'}
+                ],
+                expired_time: [
+                    { required: true , message: '请选择到期时间', trigger: 'change'}
+                ],
+                create_time: [
+                    { required: true , message: '请选择投用日期', trigger: 'change'}
+                ],
+            },
+            formLabelWidth: '120px',
+            formInline: {
+            user: '',
+            region: ''
+            },
+            tableData: []
+        }
+    },
 }
 </script>
 <style scoped>
