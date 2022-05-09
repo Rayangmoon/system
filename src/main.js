@@ -9,6 +9,8 @@ import axios from 'axios'
 import "./axios"
 import BaiduMap from 'vue-baidu-map'
 import VueCookies from 'vue-cookies';
+import htmlToPdf from '@/htmlToPdf'
+Vue.use(htmlToPdf)
 Vue.use(VueCookies)
 
 Vue.config.productionTip = false

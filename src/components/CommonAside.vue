@@ -88,7 +88,8 @@
     },
     methods: {
       queryParam() {
-          if (this.$route.query.status[0]=== 'admin') {
+        const dataB = JSON.parse(sessionStorage.getItem('缓存名称'))
+          if (dataB[0]=== 'admin') {
             this.isNeedAudit = true
           } else {
             this.isNeedAudit = false

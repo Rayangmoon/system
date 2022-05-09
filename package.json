@@ -12,6 +12,8 @@
     "core-js": "^3.21.1",
     "echarts": "^5.3.1",
     "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
     "script-loader": "^0.7.2",

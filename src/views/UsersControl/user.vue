@@ -19,13 +19,14 @@
       <!--用户列表区-->
       <el-table :data="userlist" style="width: 100%" border stripe class="table">
         <el-table-column type="index"></el-table-column>
+        <el-table-column prop="id" label="id" v-if=false></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column property="role_name" label="用户身份" :formatter="playback"></el-table-column>
         <el-table-column property="status" label="用户状态" :formatter="playbackFormat"></el-table-column>
         <el-table-column prop="4" label="操作">
           <template slot-scope="scope">
           <el-button type="text" icon="el-icon-delete" class="red"
-                     @click="open(scope.row.name,scope.row.role_name)">删除</el-button>
+                     @click="open(scope.row.id,scope.row.role_name)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -76,10 +77,10 @@ export default {
         value: 'user',
         label: '普通用户'
       },
-      //   {
-      //   value: 'admin',
-      //   label: '管理员'
-      // }
+        {
+        value: 'admin',
+        label: '管理员'
+      }
       ],
       tableData: [{
         1: '张三',
@@ -171,7 +172,7 @@ export default {
       this.userlist = res.data.result
       this.total = res.data.total_page
     },
-    async open(name,role_name) {
+    async open(id,role_name) {
       const dataB = JSON.parse(sessionStorage.getItem('缓存名称'))
       const r = await this.$confirm('此操作将永久删除该用户，是否继续？', '提示', {
         confirmButtonText: '确定',
@@ -181,7 +182,7 @@ export default {
       if(r !== "confirm"){
          return this.$message.info('已取消删除')
       }
-      const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/userManage/userDel',{data:{name:name}})
+      const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/userManage/userDel',{data:{id:id}})
       if(res.code !== 200||role_name==='admin'){
         return this.$message.error("删除用户失败")
       }

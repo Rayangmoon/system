@@ -96,7 +96,7 @@ export default {
             console.log(this.ruleForm.username)
             console.log(this.ruleForm.passwd)
             console.log(res.data.data.user_id)
-            sessionStorage.setItem('缓存名称', JSON.stringify(res.data.data.user_id))
+            sessionStorage.setItem('缓存名称', JSON.stringify(res.data.data.role))
             this.$router.push(
                 {
                   //添加需要传值到那个页面的路径

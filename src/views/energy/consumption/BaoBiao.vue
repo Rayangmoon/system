@@ -1,7 +1,8 @@
 <template>
   <div>
+    <div id="pdfDom">
     <div class="t1">能源统计月报表</div>
-    <div class="t2">2022年4月29日</div>
+    <div class="t2">2022年5月9日</div>
     <div class="t3">编制单位：上海浦敏科技有限公司</div>
     <template>
       <el-table :data="tableData" style="width: 100%" border class="tt">
@@ -12,7 +13,8 @@
       </el-table>
     </template>
     <div id="main" style="width: 1500px;height:400px;" class="chart"></div>
-    <el-button type="success" @click="exportEvent" class="b1">转至打印页</el-button>
+    </div>
+    <el-button type="success" @click="getPdf()" class="b1">打印此页</el-button>
     <el-button type="success" @click="ToEnergyConsumption">返回</el-button>
   </div>
 </template>
@@ -53,7 +55,8 @@ export default {
         2: '42334',
         3: '53534',
         4: '42435'
-      },]
+      },],
+      htmlTitle: "能源数据报表",
     }
   },
   mounted(){
@@ -105,13 +108,13 @@ export default {
 
 <style scoped>
 .t1{
-  margin-left: 650px;
+  margin-left: 600px;
   margin-top: 10px;
   font-size: 2.5rem;
   font-Weight : bold;
 }
 .t2{
-  margin-left: 720px;
+  margin-left: 690px;
   margin-top: 10px;
 }
 .t3{
