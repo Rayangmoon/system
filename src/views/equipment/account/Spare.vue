@@ -149,7 +149,7 @@
             title="备件入库"
             :visible.sync="InDialogVisible"
             width="30%"
-            :before-close="handleClose">
+            >
             <span>
                 <el-form :model="numberValidateForm" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item
@@ -160,13 +160,13 @@
                         { type: 'number', message: '件数必须为数字值'}
                         ]"
                     >
-                        <el-input type="rest_num" v-model.number="numberValidateForm.age" autocomplete="off"></el-input>
+                        <el-input type="rest_num" v-model.number="numberValidateForm.num" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="InDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="addCount(numberValidateForm.age , numberValidateForm.index)">新 增</el-button>
+                <el-button type="primary" @click="addCount(numberValidateForm.num , numberValidateForm.index , numberValidateForm.device_id)">新 增</el-button>
             </span>
         </el-dialog>
 
@@ -351,8 +351,8 @@ export default {
                     // let formData = this.createData()
                     // console.log(formData)
                     console.log(this.deviceAddForm)
-
-                    this.outDialogVisible = false
+                    api.storeApi.outStore(this.deviceAddForm.storeId)
+                    this.outDialogVisible = false                    
                     alert('出库设备成功');
                 } else {
                     console.log('error submit!!')
@@ -373,10 +373,12 @@ export default {
         handleIn(index, row ,rows) {
             this.InDialogVisible = true
             this.numberValidateForm.index = index
-            console.log(index, row , rows);
+            this.numberValidateForm.device_id = row.device_id
+            console.log(index, row);
         },
         handleOut(index, row ,rows) {
             this.outDialogVisible = true
+            this.deviceAddForm.storeId = row.device_id
             this.deviceAddForm.device_name = row.device_name
             this.deviceAddForm.type_id = row.type_id
             this.deviceAddForm.param = row.param
@@ -384,21 +386,16 @@ export default {
             console.log(row);
             
         },
-        addCount(add , index){
+        addCount(add , index , device_id){
             this.InDialogVisible = false
+            api.storeApi.inStore(device_id,add)
             let count = Number(this.tableData[index].count)
             this.tableData[index].count = (count + add).toString()
         },
         handleDelete(index, row) {
             console.log(index, row);
         },
-        handleClose(done) {
-            this.$confirm('确认关闭？')
-            .then(_ => {
-                done();
-            })
-            .catch(_ => {});
-        },
+        
         handleCurrentChange(val) {
             this.currentPage = val
             console.log(`当前页: ${val}`)
@@ -421,8 +418,9 @@ export default {
             outDialogVisible:false,
 
             numberValidateForm: {
-                age: '',
-                index:''
+                num: '',
+                index:'',
+                device_id:''
             },
             deviceForm: {
                 device_name: '',
@@ -438,6 +436,7 @@ export default {
                 rest_num:''
             },
             deviceAddForm:{
+                storeId:'',
                 device_name: '',
                 device_id: '',
                 type_id: '',
