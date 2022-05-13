@@ -34,7 +34,10 @@
 <!--          <el-input v-model="form.button_id" autocomplete="off"></el-input>-->
 <!--        </el-form-item>-->
         <el-form-item label="实现方法" :label-width="formLabelWidth" prop="script">
-          <el-input v-model="form.script" autocomplete="off"></el-input>
+<!--          <el-input v-model="form.script" autocomplete="off"></el-input>-->
+          <el-select v-model="form.script" clearable placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="位置编码" :label-width="formLabelWidth" prop="address_id">
           <el-input v-model="form.address_id" autocomplete="off"></el-input>
@@ -53,8 +56,8 @@
     </el-dialog>
     <el-dialog title="删除位置" :visible.sync="dialogFormVisible2" width="40%" @close="dialogclose2">
       <el-form :model="form2" ref="form2" :rules="rules2">
-        <el-form-item label="传感器id" :label-width="formLabelWidth" prop="button_id">
-          <el-input v-model="form2.button_id" autocomplete="off"></el-input>
+        <el-form-item label="传感器id" :label-width="formLabelWidth" prop="address_id">
+          <el-input v-model="form2.address_id" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -69,6 +72,19 @@
 export default {
   data() {
     return {
+      options: [{
+        value: 'this.$router.push(\'/energy/electricity/index\')',
+        label: '电表传感器'
+      },
+        {
+          value: 'this.$router.push(\'/energy/tem_hum/index\')',
+          label: '温湿度传感器'
+        },
+        {
+          value: 'this.$router.push(\'/energy/customer/index\')',
+          label: '客流传感器'
+        }
+      ],
       fits: ['scale-down'],
       url: require('@/assets/images/平面图1.png'),
       note: {
@@ -208,13 +224,14 @@ export default {
       if(r !== "confirm"){
         return this.$message.info('已取消删除')
       }
-      const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/addressManage/pointDel/point_id',{data:this.form2})
+      const {data:res} = await this.$axios.delete('http://150.158.37.65:8081/admin/addressManage/pointDel/address_id',{data:this.form2})
       if(res.code !== 200){
         return this.$message.error("删除传感器失败")
       }
       this.$message.success("删除传感器成功")
       this.getequiplist()
       console.log(res)
+      this.dialogFormVisible2 = false
     }
   },
   // props: {
