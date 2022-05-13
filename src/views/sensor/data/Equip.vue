@@ -41,6 +41,10 @@
       prop="device_id"
       label="设备编号">
     </el-table-column>
+    <el-table-column
+      prop="insert_time"
+      label="检测时间">
+    </el-table-column>
     
     
     </el-table>
@@ -68,7 +72,7 @@ export default {
   },
   methods: {
     getSensor(){
-      api.sensorApi.getSensor(this.currentPage).then(res => {
+      api.sensorApi.getSensor(this.currentPage , -1).then(res => {
         // if(res.code == "200"){
           console.log(res)
           console.log('看一下这的测试数据',res.data.data)
