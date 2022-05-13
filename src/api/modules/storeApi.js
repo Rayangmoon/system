@@ -15,10 +15,10 @@ export const delStore = (params) => {
 }
 
 export const inStore = (device_id , num , params) => {
-  return axios.put(`admin/storeMange/storeIn/${device_id}/${num}`,params);
+  return axios.put(`admin/storeManage/storeIn/${device_id}/${num}`,params);
 }
 export const outStore = (device_id , params) => {
-  return axios.put(`admin/storeMange/storeOut/${device_id}`,params);
+  return axios.put(`admin/storeManage/storeOut/${device_id}`,params);
 }
 
 export const putPost = (params) => {
