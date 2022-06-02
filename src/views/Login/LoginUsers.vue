@@ -1,5 +1,6 @@
 <template>
   <div>
+<!--    面包屑导航-->
     <el-breadcrumb class="bread">
       <el-breadcrumb-item :to="{ path: '/LoginMangers' }">测试登录</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/' }">用户登录</el-breadcrumb-item>
@@ -8,6 +9,7 @@
     <el-container>
       <el-header>智慧建筑管理系统登录</el-header>
       <el-main>
+<!--        表单组件-->
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="用户名" prop="username">
             <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>

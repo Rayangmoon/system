@@ -21,7 +21,7 @@
 
       <!--用户列表区-->
       <el-table
-          :data="tableData"
+          :data="temlist"
           :id="spreadsheet.id"
           style="width: 100%"
           border stripe
@@ -30,44 +30,39 @@
             type="index">
         </el-table-column>
         <el-table-column
-            prop="1"
-            label="时间"
-            width="180">
+            prop="humidity"
+            label="湿度">
         </el-table-column>
         <el-table-column
-            prop="2"
-            label="湿度"
-            width="180">
+            prop="temperature"
+            label="湿度">
         </el-table-column>
         <el-table-column
-            prop="3"
-            label="id">
+            prop="device_id"
+            label="设备id">
         </el-table-column>
         <el-table-column
-            prop="4"
-            label="power">
+            prop="power"
+            label="能量">
         </el-table-column>
         <el-table-column
-            prop="5"
+            prop="signal_intensity"
             label="信号强度">
         </el-table-column>
         <el-table-column
-            prop="6"
-            label="设备编号">
-        </el-table-column>
-        <el-table-column
-            prop="7"
-            label="温度">
+            prop="insert_time"
+            label="插入时间">
         </el-table-column>
       </el-table>
+<!--      分页-->
       <el-pagination class="pagination"
                      @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
-                     :current-page="currentPage"
+                     :current-page="this.queryInfo.page"
                      :page-sizes="[1, 2, 4, 10]"
-                     :page-size="10"
+                     :page-size="1"
                      layout="total, sizes, prev, pager, next, jumper"
-                     :total="10">
+                     :total="total">
       </el-pagination>
       <div id="main" style="width: 1200px;height:400px;" class="chart"></div>
     </el-card>
@@ -163,17 +158,35 @@ export default {
         7:'19'
       }],
     queryInfo:{
-      query: ''
+      page: 1,
+      device_id:"NVIESUIIUSDNFAVIONA123",
     },
-    currentPage: 1,
+      total:10,
+      temlist: [],
+      currentPage: 1,
       spreadsheet: {
         id: "exportTable", //id
         name: "导出温湿度数据", //导出文件名
       },
     }
   },
-  mounted(){
+   async mounted(){
     var myChart = echarts.init(document.getElementById('main'))
+    const {data: res} = await this.$axios.get('http://150.158.37.65:8081/user/tem_and_humid'+"/"+this.queryInfo.page+"/"+this.queryInfo.device_id)
+    if (res.code !== 200) {
+      return this.$message.error("获取温湿度列表失败")
+    }
+    this.temlist = res.data.result
+     var A =  this.temlist[0].temperature
+     var B =  this.temlist[1].temperature
+     var C =  this.temlist[2].temperature
+     var D =  this.temlist[3].temperature
+     var E =  this.temlist[4].temperature
+     var F =  this.temlist[0].insert_time
+     var G =  this.temlist[1].insert_time
+     var H =  this.temlist[2].insert_time
+     var I =  this.temlist[3].insert_time
+     var J =  this.temlist[4].insert_time
     var option = {
       legend: {
         data: ['理论温度曲线', '实际温度曲线']
@@ -182,7 +195,7 @@ export default {
         text: '温度数据折线图'
       },
       xAxis: {
-        data: ['2022-4-7', '2022-4-8', '2022-4-9', '2022-4-10', '2022-4-11']
+        data: [J, I, H, G, F]
       },
       yAxis: {},
       series: [
@@ -196,7 +209,7 @@ export default {
         },
         {
           name: '实际温度曲线',
-          data: [25, 14, 23, 35, 10],
+          data: [E, D, C, B, A],
           type: 'line',
           areaStyle: {
             color: '#ff0',
@@ -209,13 +222,27 @@ export default {
     };
     myChart.setOption(option);
   },
+  created(){
+    this.gettem()
+  },
   methods: {
     handleSizeChange(newsize) {
       console.log(`每页 ${newsize} 条`);
     },
     handleCurrentChange(newchang) {
       console.log(`当前页: ${newchang}`);
-    }
+      this.queryInfo.page = newchang;
+      this.gettem()
+    },
+    async gettem() {
+      const {data: res} = await this.$axios.get('http://150.158.37.65:8081/user/tem_and_humid'+"/"+this.queryInfo.page+"/"+this.queryInfo.device_id)
+      if (res.code !== 200) {
+        return this.$message.error("获取温湿度列表失败")
+      }
+      console.log(res)
+      this.temlist = res.data.result
+      this.total = res.data.total_page
+    },
   },
 
 }

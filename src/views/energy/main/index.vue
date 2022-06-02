@@ -25,6 +25,7 @@
   <!--          </el-image>-->
   <!--        </div>-->
   <!--      </div>-->
+<!--    弹框编辑-->
     <el-dialog title="增加位置" :visible.sync="dialogFormVisible" width="40%" @close="dialogclose">
       <el-form :model="form" ref="form" :rules="rules">
         <el-form-item label="位置描述" :label-width="formLabelWidth" prop="button_name">
@@ -54,6 +55,7 @@
         <el-button type="primary" @click="Addequips">确 定</el-button>
       </div>
     </el-dialog>
+<!--    删除弹框编辑-->
     <el-dialog title="删除位置" :visible.sync="dialogFormVisible2" width="40%" @close="dialogclose2">
       <el-form :model="form2" ref="form2" :rules="rules2">
         <el-form-item label="传感器id" :label-width="formLabelWidth" prop="address_id">
@@ -201,7 +203,7 @@ export default {
     },
     Addequips(){
       this.$refs.form.validate(valid => {
-        if(!valid && this.form.button_loc_x<300 && this.form.button_loc_x>1400 && this.form.button_loc_y<150 && this.form.button_loc_y>600) return this.$message.error('请添加传感器名称')
+        if(!valid && this.form.button_loc_x<'300' && this.form.button_loc_x>'1400' && this.form.button_loc_y<'150' && this.form.button_loc_y>'600') return this.$message.error('请添加传感器名称')
         // 可以发起请求
         this.$axios.post('http://150.158.37.65:8081/admin/addressMange/pointAdd', this.form).then((res)=> {
           if (res.data.code !== 200) {

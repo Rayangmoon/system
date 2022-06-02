@@ -1,10 +1,12 @@
 <template>
   <div>
+<!--    面包屑-->
     <el-breadcrumb class="bread">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item></el-breadcrumb-item>
     </el-breadcrumb>
     <div>
+<!--      百度地图组件-->
     <baidu-map class="map" center="上海" zoom="10" @ready="handler">
       <bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"></bm-navigation>
       <bm-marker :position="fit1" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyMain">
@@ -16,17 +18,19 @@
       <bm-marker :position="fit3" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEquipMain">
         <bm-label content="设备" :offset="{width: -2, height: 30}"/>
       </bm-marker>
-      <bm-marker :position="item.pot" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyMain" v-for="(item, index)  in btnsArr" :key="index">
-        <bm-label content ="{item.Name}" :offset="{width: -25, height: 30}"/>
-      </bm-marker>
+<!--      <bm-marker :position="item.pot" :dragging="ture" animation="BMAP_ANIMATION_DROP" @click="ToEnergyMain" v-for="(item, index)  in btnsArr" :key="index">-->
+<!--        <bm-label content ="{item.Name}" :offset="{width: -25, height: 30}"/>-->
+<!--      </bm-marker>-->
     </baidu-map>
-      <el-button type="primary" @click="dialogFormVisible = true" class="but">增加传感器地点</el-button>
-      <el-button type="primary" @click="dialogFormVisible2 = true" class="but">删除传感器</el-button>
+<!--      <el-button type="primary" @click="dialogFormVisible = true" class="but">增加传感器地点</el-button>-->
+<!--      <el-button type="primary" @click="dialogFormVisible2 = true" class="but">删除传感器</el-button>-->
     </div>
+<!--    两张折线图-->
     <div class="charts">
       <Chart1></Chart1>
       <Chart2></Chart2>
     </div>
+<!--    传感器弹框-->
     <el-dialog title="增加传感器" :visible.sync="dialogFormVisible" width="40%" @close="dialogclose">
       <el-form :model="form" ref="form" :rules="rules">
         <el-form-item label="传感器名字" :label-width="formLabelWidth" prop="name">

@@ -12,7 +12,7 @@
       label="序号"
       width="50">
     </el-table-column>
-    
+
     <el-table-column
       prop="relative_humidity"
       label="相对湿度">
@@ -45,8 +45,8 @@
       prop="insert_time"
       label="检测时间">
     </el-table-column>
-    
-    
+
+
     </el-table>
     <el-pagination
       @current-change="handleCurrentChange"
@@ -72,13 +72,13 @@ export default {
   },
   methods: {
     getSensor(){
-      api.sensorApi.getSensor(this.currentPage , -1).then(res => {
+      api.sensorApi.getSensor(this.currentPage , 'shuPUMIN123',-1).then(res => {
         // if(res.code == "200"){
           console.log(res)
           console.log('看一下这的测试数据',res.data.data)
           this.totalPage = res.data.data.total_page
           this.tableData = res.data.data.result
-        
+
       }).catch(
         res => {
           console.log('error',res)

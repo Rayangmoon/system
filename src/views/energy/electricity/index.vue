@@ -21,7 +21,7 @@
 
        <!--用户列表区-->
       <el-table
-          :data="tableData"
+          :data="electricitylist"
           :id="spreadsheet.id"
           style="width: 100%"
           border stripe
@@ -30,44 +30,51 @@
            type="index">
         </el-table-column>
         <el-table-column
-            prop="1"
-            label="电表类型"
-            width="180">
+            prop="volt_A"
+            label="A相电压">
         </el-table-column>
         <el-table-column
-            prop="2"
-            label="用电总数"
-            width="180">
+            prop="volt_B"
+            label="B相电压">
         </el-table-column>
         <el-table-column
-            prop="3"
-            label="设备状态">
-          <el-switch
-              v-model= ture >
-          </el-switch>
+            prop="volt_C"
+            label="C相电压">
         </el-table-column>
         <el-table-column
-            prop="4"
-            label="时间">
+            prop="current_A"
+            label="A相电流">
         </el-table-column>
           <el-table-column
-              prop="5"
-              label="区域">
+              prop="current_B"
+              label="B相电流">
           </el-table-column>
         <el-table-column
-            prop="6"
-            label="用电总数">
+            prop="current_C"
+            label="C相电流">
+        </el-table-column>
+        <el-table-column
+            prop="pos_active_energy"
+            label="正相有功总电能">
+        </el-table-column>
+        <el-table-column
+            prop="neg_active_energy"
+            label="反向有功总电能">
+        </el-table-column>
+        <el-table-column
+            prop="insert_time"
+            label="插入时间">
         </el-table-column>
       </el-table>
 <!--      分页-->
       <el-pagination class="pagination"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="this.queryInfo.page"
           :page-sizes="[1, 2, 4, 10]"
-          :page-size="4"
+          :page-size="1"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="4">
+          :total="total">
       </el-pagination>
       <div id="main" style="width: 1200px;height:400px;" class="chart"></div>
     </el-card>
@@ -110,18 +117,40 @@ export default {
         5:'532',
         6:'745',
       }],
+       //B:0, C:0, D:0, E:0,
+      data1:[ ],
+      // data1:[this.electricitylist[0].current_A,this.electricitylist[1].current_A,this.electricitylist[2].current_A,this.electricitylist[3].current_A,this.electricitylist[4].current_A],
+      // data2:[this.electricitylist[0].insert_time,this.electricitylist[1].insert_time,this.electricitylist[2].insert_time,this.electricitylist[3].insert_time,this.electricitylist[4].insert_time],
       queryInfo:{
         page: 1,
+        device_id:"ShanGHaiDaXUePUmIn789",
       },
       currentPage: 1,
+      total:10,
+      electricitylist: [],
       spreadsheet: {
         id: "exportTable", //id
         name: "导出电能数据", //导出文件名
       },
     }
   },
-  mounted(){
+  async mounted(){
     var myChart = echarts.init(document.getElementById('main'))
+    const {data: res} = await this.$axios.get('http://150.158.37.65:8081/user/electricity'+"/"+this.queryInfo.page+"/"+this.queryInfo.device_id)
+    if (res.code !== 200) {
+      return this.$message.error("获取电能列表失败")
+    }
+    this.electricitylist = res.data.result
+    var A =  this.electricitylist[0].pos_active_energy
+    var B =  this.electricitylist[1].pos_active_energy
+    var C =  this.electricitylist[2].pos_active_energy
+    var D =  this.electricitylist[3].pos_active_energy
+    var E =  this.electricitylist[4].pos_active_energy
+    var F =  this.electricitylist[0].insert_time
+    var G =  this.electricitylist[1].insert_time
+    var H =  this.electricitylist[2].insert_time
+    var I =  this.electricitylist[3].insert_time
+    var J =  this.electricitylist[4].insert_time
     var option = {
       legend: {
         data: ['理论耗能曲线', '实际耗能曲线']
@@ -130,7 +159,7 @@ export default {
         text: '电能数据折线图'
       },
       xAxis: {
-        data: ['2022-4-7', '2022-4-8', '2022-4-9', '2022-4-10', '2022-4-11']
+        data: [J, I, H, G, F]
       },
       yAxis: {},
       series: [
@@ -144,7 +173,7 @@ export default {
         },
         {
           name: '实际耗能曲线',
-          data: [25, 14, 23, 35, 10],
+          data: [E, D, C, B, A],
           type: 'line',
           areaStyle: {
             color: '#ff0',
@@ -158,7 +187,7 @@ export default {
     myChart.setOption(option);
   },
   created(){
-    this.getdevice()
+    this.getelectricity()
   },
   methods: {
     handleSizeChange(newsize) {
@@ -166,14 +195,21 @@ export default {
     },
     handleCurrentChange(newchang) {
       console.log(`当前页: ${newchang}`);
+      this.queryInfo.page = newchang;
+      this.getelectricity()
     },
-    async getdevice(){
-      // sessionStorage.setItem("token", 'bada88e8-2000-482b-a50b-48b2ea745304')
-      // this.$cookies.set("token", 'bada88e8-2000-482b-a50b-48b2ea745304', {expires: "7D"})
-      const {data:res} = await this.$axios.get('http://150.158.37.65:8081/user/aircondition', {params:this.queryInfo})
+    async getelectricity() {
+      const {data: res} = await this.$axios.get('http://150.158.37.65:8081/user/electricity'+"/"+this.queryInfo.page+"/"+this.queryInfo.device_id)
+      if (res.code !== 200) {
+        return this.$message.error("获取电能列表失败")
+      }
       console.log(res)
-    }
-  },
+      this.electricitylist = res.data.result
+      this.total = res.data.total_page
+
+    },
+  }
+
 
   }
 </script>

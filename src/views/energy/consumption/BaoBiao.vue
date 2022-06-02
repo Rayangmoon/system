@@ -1,10 +1,12 @@
 <template>
   <div>
     <div id="pdfDom">
+<!--      设计页面-->
     <div class="t1">能源统计月报表</div>
-    <div class="t2">2022年5月9日</div>
+    <div class="t2">2022年5月27日</div>
     <div class="t3">编制单位：上海浦敏科技有限公司</div>
     <template>
+<!--      表格-->
       <el-table :data="tableData" style="width: 100%" border class="tt">
         <el-table-column prop="1" label="电表类型" ></el-table-column>
         <el-table-column prop="2" label="用电总数" ></el-table-column>
